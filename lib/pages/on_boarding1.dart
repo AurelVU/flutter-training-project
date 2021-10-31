@@ -12,11 +12,10 @@ class OnBoarding1 extends StatelessWidget
       children: [
         Container(
             padding: const EdgeInsets.only(bottom: 45.0),
-            child: const Image(image: AssetImage('assets/images/facebook.png'),
-                color: pageImageColor)),
+            child: const Image(image: AssetImage('assets/images/facebook.png'))),
         const SizedBox(
             width: double.infinity,
-            child: Text('SECURED BACKUP', style: pageTitleStyle)),
+            child: Text('SECURED BACKUP')),
         const SizedBox(
           width: double.infinity,
           child: Text(

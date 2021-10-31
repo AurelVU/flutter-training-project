@@ -1,7 +1,7 @@
-import 'package:app/presentation/feed.dart';
-import 'package:app/presentation/on_boarding1.dart';
-import 'package:app/presentation/on_boarding2.dart';
-import 'package:app/presentation/on_boarding3.dart';
+import 'package:app/pages/navigation.dart';
+import 'package:app/pages/on_boarding1.dart';
+import 'package:app/pages/on_boarding2.dart';
+import 'package:app/pages/on_boarding3.dart';
 import 'package:flutter/material.dart';
 import 'package:onboarding/onboarding.dart';
 
@@ -27,16 +27,18 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
       title: 'Flutter train Twitter',
       home: Onboarding(
+        background: Colors.white70,
         proceedButtonStyle: ProceedButtonStyle(
+          proceedButtonBorderRadius: BorderRadius.circular(100),
+          proceedButtonColor: Colors.blueAccent,
           proceedpButtonText: const Text('Начать'),
           proceedButtonRoute: (context) {
             return Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
-                builder: (context) => const Feed(),
+                builder: (context) => Navigation(),
               ),
                   (route) => false,
             );
