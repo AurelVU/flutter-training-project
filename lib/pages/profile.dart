@@ -36,18 +36,7 @@ class Profile extends StatelessWidget {
               color: Colors.black,
               height: 10,
             )),
-      ),
-      PostCard(),
-      PostCard(),
-      PostCard(),
-      PostCard(),
-      PostCard(),
-      PostCard(),
-      PostCard(),
-      PostCard(),
-      PostCard(),
-      PostCard(),
-      PostCard(),
+      )
     ]);
   }
 }
