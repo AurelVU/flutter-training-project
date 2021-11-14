@@ -19,7 +19,7 @@ class PostRepository {
         url: 'https://google.com',
         isLiked: false),
     Post(
-        id: 2,
+        id: 3,
         time: DateTime.parse("2021-07-20 20:18:04Z"),
         username: 'Test2',
         title: 'Title2',
@@ -27,7 +27,7 @@ class PostRepository {
         url: 'https://google.com',
         isLiked: false),
     Post(
-        id: 2,
+        id: 4,
         time: DateTime.parse("2021-07-20 20:18:04Z"),
         username: 'Test2',
         title: 'Title2',
@@ -40,6 +40,10 @@ class PostRepository {
     return posts;
   }
 
+  loadPostById(int id) {
+    return posts.where((item) => item.id == id).first;
+  }
+
   savePost(Post post) {
     posts.add(post);
   }
@@ -48,8 +52,7 @@ class PostRepository {
     posts.removeWhere((item) => item.id == post.id);
   }
 
-  changeLikeStatus(Post post)
-  {
+  changeLikeStatus(Post post) {
     post.isLiked = !(post.isLiked ?? true);
   }
 }

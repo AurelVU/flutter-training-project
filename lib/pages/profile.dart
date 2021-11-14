@@ -1,6 +1,7 @@
-import 'package:app/widgets/post_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import '../widgets/feed.dart';
 
 class Profile extends StatelessWidget {
   const Profile({Key? key}) : super(key: key);
@@ -12,7 +13,7 @@ class Profile extends StatelessWidget {
     String lastname = 'lastname';
     String link = 'www.website.com';
 
-    return ListView(children: [
+    return Column(children: [
       Column(children: [
         Row(children: [
           const Icon(Icons.account_circle_sharp, size: 100),
@@ -23,20 +24,28 @@ class Profile extends StatelessWidget {
               Text(username, style: const TextStyle(fontSize: 19)),
               Text(firstname, style: const TextStyle(fontSize: 17)),
               Text(lastname, style: const TextStyle(fontSize: 17)),
-              Text(link, style: const TextStyle(fontSize: 17, fontStyle: FontStyle.italic))
+              Text(link,
+                  style: const TextStyle(
+                      fontSize: 17, fontStyle: FontStyle.italic))
             ],
           )
         ]),
         const Text('29 Posts')
       ]),
       Expanded(
-        child: Container(
-            margin: const EdgeInsets.only(left: 10.0, right: 20.0),
-            child: const Divider(
-              color: Colors.black,
-              height: 10,
-            )),
-      )
+        child: Column(
+          children: [
+            Container(
+                margin: const EdgeInsets.only(left: 10.0, right: 20.0),
+                child: const Divider(
+                  color: Colors.black,
+                  height: 10,
+                )),
+            Container(width: 600, height: 600 ,child: Feed())
+          ],
+        ),
+      ),
+      // SizedBox(width: 500, height: 1900, child: )
     ]);
   }
 }

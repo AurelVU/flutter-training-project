@@ -36,6 +36,10 @@ class PostBloc extends Bloc<PostsEvent, PostState> {
         postRepository.changeLikeStatus(event.post);
         yield PostsLoadSuccess(postRepository.loadPosts());
       }
+      if (event is OpenCurrentPostEvent)
+      {
+        yield CurrentPostShowState(event.post);
+      }
     } catch (_) {
       yield PostsLoadFailure();
     }

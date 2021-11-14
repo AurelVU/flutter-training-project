@@ -2,7 +2,7 @@ import 'package:app/pages/profile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'feed.dart';
+import '../widgets/feed.dart';
 
 class Navigation extends StatefulWidget {
   int selectedIndex;
