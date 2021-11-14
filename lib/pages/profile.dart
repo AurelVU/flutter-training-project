@@ -1,51 +1,50 @@
+import 'package:app/repository/authentication_repository.dart';
+import 'package:app/widgets/auth_content.dart';
+import 'package:app/widgets/profile_content.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import '../widgets/feed.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Profile extends StatelessWidget {
   const Profile({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    String username = 'user_name';
-    String firstname = 'firstname';
-    String lastname = 'lastname';
-    String link = 'www.website.com';
-
-    return Column(children: [
-      Column(children: [
-        Row(children: [
-          const Icon(Icons.account_circle_sharp, size: 100),
-          Container(width: 20),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(username, style: const TextStyle(fontSize: 19)),
-              Text(firstname, style: const TextStyle(fontSize: 17)),
-              Text(lastname, style: const TextStyle(fontSize: 17)),
-              Text(link,
-                  style: const TextStyle(
-                      fontSize: 17, fontStyle: FontStyle.italic))
-            ],
-          )
-        ]),
-        const Text('29 Posts')
-      ]),
-      Expanded(
-        child: Column(
-          children: [
-            Container(
-                margin: const EdgeInsets.only(left: 10.0, right: 20.0),
-                child: const Divider(
-                  color: Colors.black,
-                  height: 10,
-                )),
-            Container(width: 600, height: 600 ,child: Feed())
-          ],
-        ),
-      ),
-      // SizedBox(width: 500, height: 1900, child: )
-    ]);
+    return StreamBuilder(
+        stream: RepositoryProvider.of<AuthenticationRepository>(context).status,
+        builder: (BuildContext context,
+            AsyncSnapshot<AuthenticationStatus> snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.none:
+              return const Text('Empty data');
+              break;
+            case ConnectionState.waiting:
+              return const Center(child: CircularProgressIndicator());
+              break;
+            case ConnectionState.active:
+              if (snapshot.hasError) {
+                return const Text('Error');
+              } else if (snapshot.hasData) {
+                if (snapshot.data == AuthenticationStatus.authenticated) {
+                  return ProfileContent();
+                } else {
+                  return AuthorizationContent();
+                }
+              }
+              break;
+            case ConnectionState.done:
+              if (snapshot.hasError) {
+                return const Text('Error');
+              } else if (snapshot.hasData) {
+                if (snapshot.data == AuthenticationStatus.authenticated) {
+                  return ProfileContent();
+                } else {
+                  return AuthorizationContent();
+                }
+              }
+              break;
+          }
+          return const Text('None');
+        });
   }
 }

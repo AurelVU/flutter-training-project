@@ -64,7 +64,7 @@ class PostCard extends StatelessWidget {
                         ),
                         margin: const EdgeInsets.only(right: 10.0),
                       ),
-                      Expanded(child: Text(post.username)),
+                      Expanded(child: Text(post.author.username)),
                       IconButton(
                         icon: const Icon(Icons.add_comment_rounded),
                         onPressed: () {},
