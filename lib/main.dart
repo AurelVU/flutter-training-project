@@ -1,6 +1,7 @@
 import 'package:app/blocs/post/post_bloc.dart';
 import 'package:app/blocs/tab/tab_bloc.dart';
 import 'package:app/pages/hose_screen.dart';
+import 'package:app/pages/new_post.dart';
 import 'package:app/pages/onboarding/onboarding/onboarding_main.dart';
 import 'package:app/repository/authentication_repository.dart';
 import 'package:app/repository/post.dart';
@@ -47,7 +48,8 @@ class App extends StatelessWidget {
       initialRoute: !passedOnboarding ? AppRoutes.onboarding : AppRoutes.home,
       routes: {
         AppRoutes.onboarding: (context) => OnBoardingMain(),
-        AppRoutes.home: (context) => HomeScreen()
+        AppRoutes.home: (context) => HomeScreen(),
+        AppRoutes.new_post: (context) => NewPostPage()
       },
     );
   }

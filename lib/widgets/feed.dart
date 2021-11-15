@@ -1,7 +1,6 @@
 import 'package:app/blocs/post/post_bloc.dart';
 import 'package:app/models/post.dart';
 import 'package:app/pages/single_post_page.dart';
-import 'package:app/repository/post.dart';
 import 'package:app/widgets/loading_indicator.dart';
 import 'package:app/widgets/post_card.dart';
 import 'package:flutter/cupertino.dart';
@@ -42,40 +41,3 @@ class Feed extends StatelessWidget {
     });
   }
 }
-      // return BlocListener<PostBloc, PostState>(
-      //     listener: (context, state) {
-      //       if (state is CurrentPostShowState) {
-      //         Navigator.of(context).push(
-      //           MaterialPageRoute(
-      //             builder: (context) => SinglePostPage(state.post),
-      //           )
-      //         );
-      //       }
-      //     },
-      //     child: BlocBuilder<PostBloc, PostState>(builder: (context, state) {
-      //       if (state is PostsLoadSuccess) {
-      //         print('refresh');
-      //         List<Post> posts = state.posts;
-      //
-      //         return Stack(children: [
-      //           ListView.builder(
-      //               itemCount: posts.length,
-      //               itemBuilder: (BuildContext context, int index) {
-      //                 return GestureDetector(
-      //                     child: PostCard(post: posts[index]),
-      //                     onTap: () {
-      //                       Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-      //                         return SinglePostPage(posts[index]);
-      //                       }));
-      //                       // context
-      //                       //     .read<PostBloc>()
-      //                       //     .add(OpenCurrentPostEvent(posts[index]));
-      //                     });
-      //               })
-      //         ]);
-      //       } else {
-      //         return const LoadingIndicator();
-      //       }
-      //     }
-      //   )
-      // );

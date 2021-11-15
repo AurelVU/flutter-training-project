@@ -1,5 +1,6 @@
 import 'package:app/blocs/tab/tab_bloc.dart';
 import 'package:app/pages/profile.dart';
+import 'package:app/routes.dart';
 import 'package:app/widgets/tab_selector.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +20,7 @@ class HomeScreen extends StatelessWidget {
           body: activeTab is FeedTab ? Feed() : Profile(),
           floatingActionButton: FloatingActionButton(
             onPressed: () {
-              // Navigator.pushNamed(context, ArchSampleRoutes.addTodo);
+              Navigator.pushNamed(context, AppRoutes.new_post);
             },
             child: const Icon(Icons.add),
             //tooltip: ArchSampleLocalizations.of(context).addTodo,

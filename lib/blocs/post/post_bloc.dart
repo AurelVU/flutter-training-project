@@ -17,6 +17,7 @@ class PostBloc extends Bloc<PostsEvent, PostState> {
   @override
   Stream<PostState> mapEventToState(PostsEvent event) async* {
     try {
+      yield PostsLoadInProgress();
       if (event is PostsLoadEvent)
       {
         yield PostsLoadSuccess(postRepository.loadPosts());
@@ -35,10 +36,6 @@ class PostBloc extends Bloc<PostsEvent, PostState> {
       {
         postRepository.changeLikeStatus(event.post);
         yield PostsLoadSuccess(postRepository.loadPosts());
-      }
-      if (event is OpenCurrentPostEvent)
-      {
-        yield CurrentPostShowState(event.post);
       }
     } catch (_) {
       yield PostsLoadFailure();

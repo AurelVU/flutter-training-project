@@ -9,9 +9,9 @@ class PostRepository {
       title: '1 Комментарий',
       text: 'Text',
       time: DateTime.parse("1969-07-20 20:18:04Z"),
-      author: User(id: 2, username: 'testUser2', email: 'testUser_2'),
+      author: User(id: 2, username: 'testUser2', email: 'testUser_2', firstname: 'Ivan', lastname: 'Ivanov', link: 'http://google.com'),
       comments: [
-        Comment(id: 1, text: 'Random comment', author: User(id: 2, username: 'SomeUsername', email: 'somemail'))
+        Comment(id: 1, text: 'Random comment', author: User(id: 2, username: 'SomeUsername', email: 'somemail', firstname: 'Ivan', lastname: 'Ivanov', link: 'http://google.com'))
       ],
       url: 'https://google.com',
       isLiked: true
@@ -20,10 +20,10 @@ class PostRepository {
         id: 2,
         title: '2 комментария',
         text: 'Text2',
-        author: User(id: 1, username: 'testUser', email: 'testUser_'),
+        author: User(id: 1, username: 'testUser', email: 'testUser_', firstname: 'Ivan', lastname: 'Ivanov', link: 'http://google.com'),
         comments: [
-          Comment(id: 2, text: 'Random comment2', author: User(id: 4, username: 'SomeUsername4', email: 'somemail4')),
-          Comment(id: 3, text: 'Random comment3', author: User(id: 6, username: 'SomeUsername6', email: 'somemail6'))
+          Comment(id: 2, text: 'Random comment2', author: User(id: 4, username: 'SomeUsername4', email: 'somemail4', firstname: 'Ivan', lastname: 'Ivanov', link: 'http://google.com')),
+          Comment(id: 3, text: 'Random comment3', author: User(id: 6, username: 'SomeUsername6', email: 'somemail6', firstname: 'Ivan', lastname: 'Ivanov', link: 'http://google.com'))
         ],
         url: 'https://google.com',
         time: DateTime.parse("2021-07-20 20:18:04Z"),
@@ -34,14 +34,14 @@ class PostRepository {
         time: DateTime.parse("2021-07-20 20:18:04Z"),
         title: 'Title2',
         text: 'Text2',
-        author: User(id: 4, username: 'testUser4', email: 'testUser_4'),
+        author: User(id: 4, username: 'testUser4', email: 'testUser_4', firstname: 'Ivan', lastname: 'Ivanov', link: 'http://google.com'),
         comments: [],
         url: 'https://google.com',
         isLiked: false),
     Post(
         id: 4,
         time: DateTime.parse("2021-07-20 20:18:04Z"),
-        author: User(id: 3, username: 'testUser3', email: 'testUser_3'),
+        author: User(id: 3, username: 'testUser3', email: 'testUser_3', firstname: 'Ivan', lastname: 'Ivanov', link: 'http://google.com'),
         comments: [],
         title: 'Title2',
         text: 'Text2',

@@ -1,16 +1,16 @@
+import 'package:app/models/user.dart';
+import 'package:app/repository/user_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'feed.dart';
 
 class ProfileContent extends StatelessWidget {
-  String username = 'user_name';
-  String firstname = 'firstname';
-  String lastname = 'lastname';
-  String link = 'www.website.com';
 
   @override
   Widget build(BuildContext context) {
+    User user = RepositoryProvider.of<UserRepository>(context).getUser() as User;
     return Column(children: [
       Column(children: [
         Row(children: [
@@ -19,10 +19,10 @@ class ProfileContent extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(username, style: const TextStyle(fontSize: 19)),
-              Text(firstname, style: const TextStyle(fontSize: 17)),
-              Text(lastname, style: const TextStyle(fontSize: 17)),
-              Text(link,
+              Text(user.username, style: const TextStyle(fontSize: 19)),
+              Text(user.firstname, style: const TextStyle(fontSize: 17)),
+              Text(user.lastname, style: const TextStyle(fontSize: 17)),
+              Text(user.link,
                   style: const TextStyle(
                       fontSize: 17, fontStyle: FontStyle.italic))
             ],

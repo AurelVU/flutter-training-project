@@ -34,7 +34,7 @@ class Profile extends StatelessWidget {
               break;
             case ConnectionState.done:
               if (snapshot.hasError) {
-                return const Text('Error');
+                return AuthorizationContent();// const Text('Error');
               } else if (snapshot.hasData) {
                 if (snapshot.data == AuthenticationStatus.authenticated) {
                   return ProfileContent();

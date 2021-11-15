@@ -12,32 +12,52 @@ class AuthorizationContent extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Добро пожаловать'),
-          Text('Авторизация'),
+          Container(
+            margin: const EdgeInsets.only(bottom: 5.0),
+            child: Text('Добро пожаловать',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+          ),
+          Container(
+            margin: const EdgeInsets.only(bottom: 10.0),
+            child: Text('Авторизация',
+                style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold)),
+          ),
           Text('Email'),
-          TextField(),
+          TextFormField(
+              // указываем для поля границу,
+              // иконку и подсказку (hint)
+              decoration: const InputDecoration(
+                  border: OutlineInputBorder(), hintText: "Email")),
           Text('Password'),
-          TextField(),
+          TextFormField(
+              // указываем для поля границу,
+              // иконку и подсказку (hint)
+              decoration: const InputDecoration(
+                  border: OutlineInputBorder(), hintText: "Пароль")),
           FlatButton(onPressed: () {}, child: Text('Забыли пароль?')),
           Row(
             children: [
-              ElevatedButton(
-                onPressed: () {
-                  RepositoryProvider.of<AuthenticationRepository>(context)
-                      .logIn(password: 'test', username: 'test');
-                },
-                child: Text('Войти'),
+              Expanded(
+                child: ElevatedButton(
+                  onPressed: () {
+                    RepositoryProvider.of<AuthenticationRepository>(context)
+                        .logIn(password: 'test', username: 'test');
+                  },
+                  child: Text('Войти'),
+                ),
               ),
             ],
           ),
           Row(
             children: [
-              ElevatedButton(
-                  onPressed: () {
-                    RepositoryProvider.of<AuthenticationRepository>(context)
-                        .logIn(password: 'test', username: 'test');
-                  },
-                  child: Text('Регистрация')),
+              Expanded(
+                child: ElevatedButton(
+                    onPressed: () {
+                      RepositoryProvider.of<AuthenticationRepository>(context)
+                          .logIn(password: 'test', username: 'test');
+                    },
+                    child: Text('Регистрация')),
+              ),
             ],
           )
         ],

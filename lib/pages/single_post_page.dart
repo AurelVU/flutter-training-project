@@ -14,17 +14,17 @@ class SinglePostPage extends StatelessWidget {
       appBar: AppBar(
         title: Text(post.title),
       ),
-      body: 
-      Column(
-        children: [
-          Container(margin: const EdgeInsets.only(top: 120.0), child: PostCard(post: post)),
-
-          ListView.builder(
-            itemCount: post.comments.length,
-            itemBuilder: (BuildContext context, int index) => CommentWidget(comment: post.comments[index])
-          )
-        ]
-      ),
+      body: PostCard(post: post)
+      // Column(
+      //   children: [
+      //     Container(margin: const EdgeInsets.only(top: 120.0), child: PostCard(post: post)),
+      //
+      //     ListView.builder(
+      //       itemCount: post.comments.length,
+      //       itemBuilder: (BuildContext context, int index) => CommentWidget(comment: post.comments[index])
+      //     )
+      //   ]
+      // ),
     );
   }
 }

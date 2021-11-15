@@ -30,9 +30,3 @@ class PostChangeLikeStatusEvent extends PostsEvent {
   @override
   String toString() => 'Post liked or unliked { post: $post }';
 }
-
-class OpenCurrentPostEvent extends PostsEvent {
-  Post post;
-
-  OpenCurrentPostEvent(this.post);
-}

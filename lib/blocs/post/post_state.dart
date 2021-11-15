@@ -18,8 +18,3 @@ class PostsLoadInProgress extends PostState{
 class PostsLoadFailure extends PostState{
 
 }
-
-class CurrentPostShowState extends PostState {
-  Post post;
-  CurrentPostShowState(this.post);
-}
