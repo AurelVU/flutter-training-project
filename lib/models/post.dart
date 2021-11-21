@@ -9,6 +9,7 @@ class Post {
   final List<Comment> comments;
   final int id;
   final String url;
+  final List<String> imageLinks;
   bool? isLiked;
 
   Post(
@@ -19,5 +20,6 @@ class Post {
       required this.title,
       required this.text,
       required this.url,
+      required this.imageLinks,
       required this.isLiked});
 }

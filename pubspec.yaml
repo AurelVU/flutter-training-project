@@ -38,6 +38,7 @@ dependencies:
   flutter_bloc: ^7.3.2
   firebase_core: ^0.7.0
   swipe_image_gallery: ^0.0.4
+  flutter_share: ^2.0.0
 
 dev_dependencies:
   flutter_test:

@@ -3,11 +3,12 @@ import 'package:app/models/post.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_share/flutter_share.dart';
 import 'package:like_button/like_button.dart';
 import 'package:swipe_image_gallery/swipe_image_gallery.dart';
 
 class PostCard extends StatelessWidget {
-  final Post post;
+  Post post;
   late PostBloc bloc;
 
   PostCard({Key? key, required this.post}) : super(key: key);
@@ -18,14 +19,36 @@ class PostCard extends StatelessWidget {
     return !isLiked;
   }
 
+  Future<void> share() async {
+    await FlutterShare.share(
+        title: post.title,
+        text: post.text,
+        linkUrl: post.url,
+        chooserTitle: post.author.username
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     bloc = BlocProvider.of<PostBloc>(context);
-    List<Image> images = [
-      Image(image: AssetImage('assets/images/facebook.png')),
-      Image(image: AssetImage('assets/images/instagram.png')),
-      Image(image: AssetImage('assets/images/twitter.png')),
-    ];
+    List<Image> images = [];
+    List<Expanded> widgetImageList = [];
+    post.imageLinks.forEach((element) {
+      images.add(Image.network(element));
+    });
+    images.forEach((element) => widgetImageList.add(Expanded(
+        child: IconButton(
+          icon: element,
+          iconSize: 110,
+          onPressed: () {
+            SwipeImageGallery(
+              context: context,
+              images: images,
+            ).show();
+          },
+        ))));
+
+
     return Card(
         child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
       ListTile(
@@ -39,44 +62,11 @@ class PostCard extends StatelessWidget {
             ),
           ]),
           subtitle: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Text(post.text),
               Row(
-                children: [
-                  Expanded(
-                      child: IconButton(
-                      icon: images[0],
-                      iconSize: 110,
-                      onPressed: () {
-                        SwipeImageGallery(
-                          context: context,
-                          images: images,
-                        ).show();
-                      },
-                  )),
-                  Expanded(
-                      child: IconButton(
-                      icon: images[1],
-                      iconSize: 110,
-                      onPressed: () {
-                        SwipeImageGallery(
-                          context: context,
-                          images: images,
-                        ).show();
-                      },
-                  )),
-                  Expanded(
-                      child: IconButton(
-                      icon: images[2],
-                      iconSize: 110,
-                      onPressed: () {
-                        SwipeImageGallery(
-                          context: context,
-                          images: images,
-                        ).show();
-                      },
-                  )),
-                ],
+                children: widgetImageList,
               ),
               Row(
                 children: [
@@ -94,7 +84,7 @@ class PostCard extends StatelessWidget {
                   ),
                   IconButton(
                     icon: const Icon(Icons.share),
-                    onPressed: () {},
+                    onPressed: () => share(),
                   ),
                   // IconButton(icon: const Icon(Icons.favorite, color: Colors.pink), onPressed: () {  },)
                   LikeButton(
