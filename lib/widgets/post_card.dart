@@ -1,5 +1,6 @@
 import 'package:app/blocs/post/post_bloc.dart';
 import 'package:app/models/post.dart';
+import 'package:date_format/date_format.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,6 +13,28 @@ class PostCard extends StatelessWidget {
   late PostBloc bloc;
 
   PostCard({Key? key, required this.post}) : super(key: key);
+
+  String formatDateTime(DateTime postedTime){
+    DateTime timeNow = DateTime.now();
+    var difference = timeNow.difference(postedTime);
+    if (difference.inDays > 30)
+      {
+        return formatDate(postedTime, [yy, '-', M, '-', d]);
+      }
+    if (difference.inHours > 24)
+      {
+        return difference.inDays.toInt().toString() + 'd';
+      }
+    if (difference.inMinutes > 60)
+      {
+        return difference.inHours.toInt().toString() + 'h';
+      }
+    if (difference.inSeconds > 60)
+    {
+      return difference.inMinutes.toInt().toString() + 'm';
+    }
+    return 'Just now';
+  }
 
   Future<bool> onLikeButtonTapped(bool isLiked) async {
     bloc.add(PostChangeLikeStatusEvent(post: post));
@@ -31,11 +54,13 @@ class PostCard extends StatelessWidget {
   Widget build(BuildContext context) {
     bloc = BlocProvider.of<PostBloc>(context);
     List<Image> images = [];
+    List<Image> imagesForButtons = [];
     List<LimitedBox> widgetImageList = [];
     post.imageLinks.forEach((element) {
       images.add(Image.network(element));
+      imagesForButtons.add(Image.network(element, fit: BoxFit.fill));
     });
-    images.forEach((element) => widgetImageList.add(
+    imagesForButtons.forEach((element) => widgetImageList.add(
         LimitedBox(
           maxHeight: 250,
           maxWidth: 250,
@@ -62,7 +87,7 @@ class PostCard extends StatelessWidget {
           title: Row(children: [
             Text(post.title),
             Expanded(child: Container(width: 20)),
-            Text(post.time.toString()),
+            Text(formatDateTime(post.time)),
             IconButton(
               icon: const Icon(Icons.more_vert),
               onPressed: () {},
