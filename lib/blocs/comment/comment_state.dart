@@ -4,3 +4,7 @@ part of 'comment_bloc.dart';
 abstract class CommentState {}
 
 class CommentInitial extends CommentState {}
+
+class CommentLoadInProgress extends CommentEvent{
+
+}

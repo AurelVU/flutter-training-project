@@ -47,7 +47,8 @@ class PostCard extends StatelessWidget {
         title: post.title,
         text: post.text,
         linkUrl: post.url,
-        chooserTitle: post.author.username);
+        chooserTitle: post.author.username
+    );
   }
 
   @override
@@ -71,8 +72,8 @@ class PostCard extends StatelessWidget {
               icon: element,
               onPressed: () {
                 SwipeImageGallery(
-                    context: context, 
-                    images: images, 
+                    context: context,
+                    images: images,
                     transitionDuration: 120,
                     initialIndex: images.indexOf(element)
                 ).show();
