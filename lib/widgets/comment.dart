@@ -12,6 +12,8 @@ class CommentWidget extends StatelessWidget {
     return Row(children: [
       Expanded(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Container(
                 margin:
@@ -20,8 +22,8 @@ class CommentWidget extends StatelessWidget {
                   color: Colors.black,
                   height: 10,
                 )),
-            Text(comment.author.username),
-            Text(comment.text)
+            Text(comment.author.username, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+            Text(comment.text, style: TextStyle(fontSize: 18))
           ],
         ),
       ),

@@ -9,6 +9,7 @@ import 'package:app/repository/user_repository.dart';
 import 'package:app/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(
@@ -42,14 +43,19 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool passedOnboarding = false;
-    return MaterialApp(
-      title: 'Flutter train Twitter',
-      initialRoute: !passedOnboarding ? AppRoutes.onboarding : AppRoutes.home,
-      routes: {
-        AppRoutes.onboarding: (context) => OnBoardingMain(),
-        AppRoutes.home: (context) => HomeScreen(),
-        AppRoutes.new_post: (context) => NewPostPage()
+    return FutureBuilder<SharedPreferences>(
+      future: SharedPreferences.getInstance(),
+      builder: (BuildContext context, AsyncSnapshot<SharedPreferences> snapshot) {
+        final passedOnboarding = snapshot.data!.getBool('passedOnboarding');
+        return MaterialApp(
+          title: 'Flutter train Twitter',
+          initialRoute: passedOnboarding == null || passedOnboarding == false ? AppRoutes.onboarding : AppRoutes.home,
+          routes: {
+            AppRoutes.onboarding: (context) => OnBoardingMain(),
+            AppRoutes.home: (context) => HomeScreen(),
+            AppRoutes.new_post: (context) => NewPostPage()
+          },
+        );
       },
     );
   }

@@ -14,17 +14,51 @@ class SinglePostPage extends StatelessWidget {
       appBar: AppBar(
         title: Text(post.title),
       ),
-      body: PostCard(post: post)
-      // Column(
-      //   children: [
-      //     Container(margin: const EdgeInsets.only(top: 120.0), child: PostCard(post: post)),
-      //
-      //     ListView.builder(
-      //       itemCount: post.comments.length,
-      //       itemBuilder: (BuildContext context, int index) => CommentWidget(comment: post.comments[index])
-      //     )
-      //   ]
-      // ),
+      body: SafeArea(
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 15.0),
+          child: SizedBox(
+            width: double.infinity,
+            height: double.infinity,
+            child: Align(
+              alignment: Alignment.topLeft,
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                  PostCard(post: post),
+
+                  Flexible(
+                    child: ListView.builder(
+                      itemCount: post.comments.length,
+                      itemBuilder: (BuildContext context, int index) => CommentWidget(comment: post.comments[index])
+                    ),
+                  ),
+                  Container(
+                    width: 300,
+                    height: 150,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        TextFormField(
+                          // указываем для поля границу,
+                          // иконку и подсказку (hint)
+                          decoration: const InputDecoration(border: OutlineInputBorder(), hintText: "Комменарий")
+                        ),
+                        ElevatedButton(
+                            onPressed: () {},
+                            child: Text('Отправить')
+                        ),
+                      ],
+                    ),
+                  ),
+                ]
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

@@ -29,9 +29,6 @@ class Feed extends StatelessWidget {
                           MaterialPageRoute(builder: (_) {
                             return SinglePostPage(posts[index]);
                           }));
-                      // context
-                      //     .read<PostBloc>()
-                      //     .add(OpenCurrentPostEvent(posts[index]));
                     });
               })
         ]);

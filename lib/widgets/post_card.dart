@@ -24,30 +24,37 @@ class PostCard extends StatelessWidget {
         title: post.title,
         text: post.text,
         linkUrl: post.url,
-        chooserTitle: post.author.username
-    );
+        chooserTitle: post.author.username);
   }
 
   @override
   Widget build(BuildContext context) {
     bloc = BlocProvider.of<PostBloc>(context);
     List<Image> images = [];
-    List<Expanded> widgetImageList = [];
+    List<LimitedBox> widgetImageList = [];
     post.imageLinks.forEach((element) {
       images.add(Image.network(element));
     });
-    images.forEach((element) => widgetImageList.add(Expanded(
-        child: IconButton(
-          icon: element,
-          iconSize: 110,
-          onPressed: () {
-            SwipeImageGallery(
-              context: context,
-              images: images,
-            ).show();
-          },
-        ))));
-
+    images.forEach((element) => widgetImageList.add(
+        LimitedBox(
+          maxHeight: 250,
+          maxWidth: 250,
+          child: SizedBox(
+            height: 1000,
+            width: 1000,
+            child: IconButton(
+              icon: element,
+              onPressed: () {
+                SwipeImageGallery(
+                    context: context, 
+                    images: images, 
+                    transitionDuration: 120,
+                    initialIndex: images.indexOf(element)
+                ).show();
+              },
+            ),
+          ),
+        )));
 
     return Card(
         child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
@@ -62,10 +69,13 @@ class PostCard extends StatelessWidget {
             ),
           ]),
           subtitle: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Text(post.text),
               Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: widgetImageList,
               ),
               Row(
