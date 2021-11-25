@@ -7,9 +7,12 @@ import 'package:app/repository/authentication_repository.dart';
 import 'package:app/repository/post.dart';
 import 'package:app/repository/user_repository.dart';
 import 'package:app/routes.dart';
+import 'package:app/widgets/loading_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'blocs/auth/auth_bloc.dart';
 
 void main() {
   runApp(
@@ -30,6 +33,9 @@ void main() {
               ..add(PostsLoadEvent())),
             BlocProvider<TabBloc>(
               create: (BuildContext context) => TabBloc()
+            ),
+            BlocProvider<AuthBloc>(
+              create: (BuildContext context) => AuthBloc()
             )
           ],
           child: App()
@@ -46,6 +52,9 @@ class App extends StatelessWidget {
     return FutureBuilder<SharedPreferences>(
       future: SharedPreferences.getInstance(),
       builder: (BuildContext context, AsyncSnapshot<SharedPreferences> snapshot) {
+        if (snapshot.data == null) {
+          return const LoadingIndicator();
+        }
         final passedOnboarding = snapshot.data!.getBool('passedOnboarding');
         return MaterialApp(
           title: 'Flutter train Twitter',

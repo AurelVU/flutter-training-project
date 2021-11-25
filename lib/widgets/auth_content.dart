@@ -1,3 +1,4 @@
+import 'package:app/blocs/auth/auth_bloc.dart';
 import 'package:app/repository/authentication_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -40,8 +41,8 @@ class AuthorizationContent extends StatelessWidget {
               Expanded(
                 child: ElevatedButton(
                   onPressed: () {
-                    RepositoryProvider.of<AuthenticationRepository>(context)
-                        .logIn(password: 'test', username: 'test');
+                    BlocProvider.of<AuthBloc>(context)
+                        .add(LoginEvent(login: 'aurel.vu', password: 'test'));
                   },
                   child: Text('Войти'),
                 ),
@@ -53,8 +54,6 @@ class AuthorizationContent extends StatelessWidget {
               Expanded(
                 child: ElevatedButton(
                     onPressed: () {
-                      RepositoryProvider.of<AuthenticationRepository>(context)
-                          .logIn(password: 'test', username: 'test');
                     },
                     child: Text('Регистрация')),
               ),
