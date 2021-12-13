@@ -12,10 +12,10 @@ class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AuthBloc, AuthState>(builder: (context, authState) {
-      if (AuthState is AuthorizedState) {
+      if (authState is AuthorizedState) {
         return ProfileContent();
       }
-      if (AuthState is NotAuthorizedState) {
+      if (authState is NotAuthorizedState) {
         return AuthorizationContent();
       }
       return LoadingIndicator();

@@ -1,4 +1,7 @@
 import 'dart:async';
+import 'package:app/src/const.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 enum AuthenticationStatus { unknown, authenticated, unauthenticated }
 
@@ -11,14 +14,20 @@ class AuthenticationRepository {
     yield* _controller.stream;
   }
 
-  Future<void> logIn({
+  Future<bool> logIn ({
     required String username,
     required String password,
   }) async {
-    await Future.delayed(
-      const Duration(milliseconds: 300),
-          () => _controller.add(AuthenticationStatus.authenticated),
-    );
+    var logincred = new Map();
+    logincred['email']=username;
+    logincred['password']=password;
+    var response = await http.post(
+        '${URL}/user/login',
+        headers: {"Accept": "application/json"},
+        body:logincred);
+    if (response.statusCode == 500) {
+      return true;
+    } else { return false; }
   }
 
   void logOut() {

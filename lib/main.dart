@@ -35,7 +35,7 @@ void main() {
               create: (BuildContext context) => TabBloc()
             ),
             BlocProvider<AuthBloc>(
-              create: (BuildContext context) => AuthBloc()
+              create: (BuildContext context) => AuthBloc()..add(LoginEvent(login: 'test@test.test', password: 'test'))
             )
           ],
           child: App()

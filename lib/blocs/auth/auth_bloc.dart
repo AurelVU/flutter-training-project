@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:app/models/user.dart';
+import 'package:app/repository/authentication_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
@@ -17,14 +18,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthEvent>((event, emit) {
       try {
         if (event is LoginEvent) {
-          _user = User(
-              id: 55,
-              email: 'test@test.test',
-              link: 'https://google.com',
-              firstname: 'Vladimir',
-              lastname: 'Ushakov',
-              username: event.login
-          );
+
+          AuthenticationRepository.logIn(username: event.login, password: event.password);
 
           emit(AuthorizedState(_user!));
         } else if (event is RegistrationEvent) {
