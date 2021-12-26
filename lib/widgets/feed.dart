@@ -19,18 +19,20 @@ class Feed extends StatelessWidget {
         List<Post> posts = state.posts;
 
         return Stack(children: [
-          ListView.builder(
-              itemCount: posts.length,
-              itemBuilder: (BuildContext context, int index) {
-                return GestureDetector(
-                    child: PostCard(post: posts[index]),
-                    onTap: () async {
-                      await Navigator.of(context).push(
-                          MaterialPageRoute(builder: (_) {
-                            return SinglePostPage(posts[index]);
-                          }));
-                    });
-              })
+          Expanded(
+            child: ListView.builder(
+                itemCount: posts.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return GestureDetector(
+                      child: PostCard(post: posts[index]),
+                      onTap: () async {
+                        await Navigator.of(context).push(
+                            MaterialPageRoute(builder: (_) {
+                              return SinglePostPage(posts[index]);
+                            }));
+                      });
+                }),
+          )
         ]);
       } else {
         return const LoadingIndicator();

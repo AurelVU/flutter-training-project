@@ -15,15 +15,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'blocs/auth/auth_bloc.dart';
 
 void main() {
+  AuthenticationRepository authRep = AuthenticationRepository();
   runApp(
       MultiRepositoryProvider(
         providers: [
           RepositoryProvider<PostRepository>(
-              create: (context) => PostRepository()),
+              create: (context) => PostRepository(authRep)),
           RepositoryProvider<UserRepository>(
               create: (context) => UserRepository()),
           RepositoryProvider<AuthenticationRepository>(
-              create: (context) => AuthenticationRepository()),
+              create: (context) => authRep),
         ],
         child: MultiBlocProvider(
           providers: [
@@ -35,7 +36,7 @@ void main() {
               create: (BuildContext context) => TabBloc()
             ),
             BlocProvider<AuthBloc>(
-              create: (BuildContext context) => AuthBloc()..add(LoginEvent(login: 'test@test.test', password: 'test'))
+              create: (BuildContext context) => AuthBloc(RepositoryProvider.of<AuthenticationRepository>(context))
             )
           ],
           child: App()

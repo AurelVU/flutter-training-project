@@ -22,4 +22,24 @@ class Post {
       required this.url,
       required this.imageLinks,
       required this.isLiked});
+
+  static fromJson(json) {
+    Post p = new Post(
+        time: DateTime.parse(json['time_created']),
+        id: json['id'],
+        author: User(
+            id: 1,
+            email: 'test',
+            firstname: 'test',
+            lastname: 'test',
+            link: 'test',
+            username: 'test'),
+        isLiked: null,
+        url: '',
+        title: json['title'],
+        text: json['text'],
+        imageLinks: [],
+        comments: []);
+    return p;
+  }
 }

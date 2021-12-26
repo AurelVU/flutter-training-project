@@ -15,4 +15,16 @@ class User
     required this.lastname,
     required this.link,
   });
+
+  static fromJson(json) {
+    User u = new User(
+      email: '',
+      link: json['website'],
+      username: json['nickname'],
+      id: 1,
+      lastname: json['lastname'],
+      firstname: json['firstname']
+    );
+    return u;
+  }
 }

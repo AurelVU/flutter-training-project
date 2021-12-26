@@ -1,4 +1,5 @@
 import 'package:app/models/user.dart';
+import 'package:app/repository/authentication_repository.dart';
 import 'package:app/repository/user_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,14 +9,11 @@ import 'feed.dart';
 import 'loading_indicator.dart';
 
 class ProfileContent extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: RepositoryProvider.of<UserRepository>(context).getUser(),
-      builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          User? user = snapshot.data;
+        future: RepositoryProvider.of<AuthenticationRepository>(context).user,
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
           return Column(children: [
             Column(children: [
               Row(children: [
@@ -23,14 +21,29 @@ class ProfileContent extends StatelessWidget {
                 Container(width: 20),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(user!.username, style: const TextStyle(fontSize: 19)),
-                    Text(user.firstname, style: const TextStyle(fontSize: 17)),
-                    Text(user.lastname, style: const TextStyle(fontSize: 17)),
-                    Text(user.link,
-                        style: const TextStyle(
-                            fontSize: 17, fontStyle: FontStyle.italic))
-                  ],
+                  children: (snapshot.data == null)
+                      ? [
+                          Text('Загрузка...',
+                              style: const TextStyle(fontSize: 19)),
+                          Text('Загрузка...',
+                              style: const TextStyle(fontSize: 17)),
+                          Text('Загрузка...',
+                              style: const TextStyle(fontSize: 17)),
+                          Text('Загрузка...',
+                              style: const TextStyle(
+                                  fontSize: 17, fontStyle: FontStyle.italic))
+                        ]
+                      : [
+                          Text(snapshot.data?.username,
+                              style: const TextStyle(fontSize: 19)),
+                          Text(snapshot.data?.firstname,
+                              style: const TextStyle(fontSize: 17)),
+                          Text(snapshot.data?.lastname,
+                              style: const TextStyle(fontSize: 17)),
+                          Text(snapshot.data?.link,
+                              style: const TextStyle(
+                                  fontSize: 17, fontStyle: FontStyle.italic))
+                        ],
                 )
               ]),
               const Text('29 Posts')
@@ -39,23 +52,18 @@ class ProfileContent extends StatelessWidget {
               child: Column(
                 children: [
                   Container(
-                      margin:
-                      const EdgeInsets.only(left: 10.0, right: 20.0),
+                      margin: const EdgeInsets.only(left: 10.0, right: 20.0),
                       child: const Divider(
                         color: Colors.black,
                         height: 10,
                       )),
-                  Container(width: 600, height: 600, child: Feed())
+                  Flexible(
+                      child: Container(width: 600, height: 600, child: Feed()))
                 ],
               ),
             ),
             // SizedBox(width: 500, height: 1900, child: )
           ]);
-        }
-        else {
-          return LoadingIndicator();
-        }
-      }
-    );
+        });
   }
 }

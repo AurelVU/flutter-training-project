@@ -4,9 +4,9 @@ part of 'auth_bloc.dart';
 abstract class AuthState {}
 
 class AuthorizedState extends AuthState {
-  final User _user;
+  final User? _user;
 
-  User get user => _user;
+  User? get user => _user;
 
   AuthorizedState(this._user);
 }

@@ -8,12 +8,10 @@ class PostsLoadEvent extends PostsEvent {
 }
 
 class PostsAddedEvent extends PostsEvent {
-  final Post post;
+  String title;
+  String text;
 
-  PostsAddedEvent({required this.post});
-
-  @override
-  String toString() => 'PostAdded { post: $post }';
+  PostsAddedEvent({required this.title, required this.text});
 }
 
 class PostsDeletedEvent extends PostsEvent {

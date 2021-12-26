@@ -10,14 +10,23 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SinglePostPage extends StatelessWidget {
   Post post;
+
   SinglePostPage(this.post, {Key? key}) : super(key: key);
 
   final commentController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    Comment comment = Comment(author: User(email: 'test', firstname: 'test', id: 53, lastname: 'test', link: 'https://google.com', username: 'test'), id: 2, text: commentController.text);
-
+    Comment comment = Comment(
+        author: User(
+            email: 'test',
+            firstname: 'test',
+            id: 53,
+            lastname: 'test',
+            link: 'https://google.com',
+            username: 'test'),
+        id: 2,
+        text: commentController.text);
 
     return Scaffold(
       appBar: AppBar(
@@ -35,36 +44,38 @@ class SinglePostPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                  PostCard(post: post),
-
-                  Flexible(
-                    child: ListView.builder(
-                      itemCount: post.comments.length,
-                      itemBuilder: (BuildContext context, int index) => CommentWidget(comment: post.comments[index])
+                    PostCard(post: post),
+                    ListView(children: [
+                      Flexible(
+                        child: ListView.builder(
+                            itemCount: post.comments.length,
+                            itemBuilder: (BuildContext context, int index) =>
+                                CommentWidget(comment: post.comments[index])),
+                      )
+                    ]),
+                    Container(
+                      width: 300,
+                      height: 150,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          TextFormField(
+                              controller: commentController,
+                              // указываем для поля границу,
+                              // иконку и подсказку (hint)
+                              decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  hintText: "Комменарий")),
+                          ElevatedButton(
+                              onPressed: () =>
+                                  BlocProvider.of<CommentBloc>(context).add(
+                                      AddCommentEvent(commentController.text)),
+                              child: Text('Отправить')),
+                        ],
+                      ),
                     ),
-                  ),
-                  Container(
-                    width: 300,
-                    height: 150,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        TextFormField(
-                          controller: commentController,
-                          // указываем для поля границу,
-                          // иконку и подсказку (hint)
-                          decoration: const InputDecoration(border: OutlineInputBorder(), hintText: "Комменарий")
-                        ),
-                        ElevatedButton(
-                            onPressed: () => BlocProvider.of<CommentBloc>(context).add(AddCommentEvent(commentController.text)),
-                            child: Text('Отправить')
-                        ),
-                      ],
-                    ),
-                  ),
-                ]
-              ),
+                  ]),
             ),
           ),
         ),

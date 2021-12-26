@@ -16,29 +16,26 @@ class PostBloc extends Bloc<PostsEvent, PostState> {
 
   @override
   Stream<PostState> mapEventToState(PostsEvent event) async* {
-    try {
       yield PostsLoadInProgress();
       if (event is PostsLoadEvent)
       {
-        yield PostsLoadSuccess(postRepository.loadPosts());
+        List<Post> posts = await postRepository.loadPosts();
+        yield PostsLoadSuccess(posts);
       }
       if (event is PostsAddedEvent)
       {
-        postRepository.savePost(event.post);
-        yield PostsLoadSuccess(postRepository.loadPosts());
+        postRepository.savePost(event.title, event.text);
+        yield PostsLoadSuccess(await postRepository.loadPosts());
       }
       if (event is PostsDeletedEvent)
       {
         postRepository.deletePost(event.post);
-        yield PostsLoadSuccess(postRepository.loadPosts());
+        yield PostsLoadSuccess(await postRepository.loadPosts());
       }
       if (event is PostChangeLikeStatusEvent)
       {
         postRepository.changeLikeStatus(event.post);
-        yield PostsLoadSuccess(postRepository.loadPosts());
+        yield PostsLoadSuccess(await postRepository.loadPosts());
       }
-    } catch (_) {
-      yield PostsLoadFailure();
-    }
   }
 }

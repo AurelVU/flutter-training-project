@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AuthorizationContent extends StatelessWidget {
+  var loginController = TextEditingController();
+  var passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -25,12 +28,14 @@ class AuthorizationContent extends StatelessWidget {
           ),
           Text('Email'),
           TextFormField(
+            controller: loginController,
               // указываем для поля границу,
               // иконку и подсказку (hint)
               decoration: const InputDecoration(
                   border: OutlineInputBorder(), hintText: "Email")),
           Text('Password'),
           TextFormField(
+            controller: passwordController,
               // указываем для поля границу,
               // иконку и подсказку (hint)
               decoration: const InputDecoration(
@@ -42,7 +47,7 @@ class AuthorizationContent extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: () {
                     BlocProvider.of<AuthBloc>(context)
-                        .add(LoginEvent(login: 'aurel.vu', password: 'test'));
+                        .add(LoginEvent(login: loginController.text.trim(), password: passwordController.text.trim()));
                   },
                   child: Text('Войти'),
                 ),

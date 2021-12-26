@@ -1,1 +1,1 @@
-const String URL = 'https://backend-for-flutter-training.herokuapp.com/';
+const String URL = 'https://backend-for-flutter-training.herokuapp.com';
