@@ -50,6 +50,7 @@ class AuthenticationRepository {
   }
 
   Future<User?> get user async {
+    if (await jwt_token == null) { return null; }
     int id = JwtDecoder.decode((await jwt_token)!)['id'];
     var response = await http.get(
         '${URL}/user/${id}',

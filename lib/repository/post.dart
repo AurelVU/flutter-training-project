@@ -65,48 +65,57 @@ class PostRepository {
   //       url: 'https://google.com',
   //       isLiked: false)
   // ];
+  List<Post> posts = [];
   AuthenticationRepository authRepository;
 
   PostRepository(this.authRepository);
 
   Future<List<Post>> loadPosts() async {
-    var response = await http.get(
-        '${URL}/post/',
-        headers: {"Accept": "application/json", HttpHeaders.contentTypeHeader: 'application/json'});
+    var response = await http.get('${URL}/post/', headers: {
+      "Accept": "application/json",
+      HttpHeaders.contentTypeHeader: 'application/json'
+    });
     if (response.statusCode! == 200) {}
     Iterable l = json.decode(response.body);
-    List<Post> posts = List<Post>.from(l.map((model)=> Post.fromJson(model)));
+    User? user = await authRepository.user;
+    List<Post> posts = List<Post>.from(l.map((model) => Post.fromJson(model, user)));
+    this.posts = posts;
     print(json.decode(response.body));
     return posts;
   }
 
   Future<Post> loadPostById(int id) async {
-    var response = await http.get(
-        '${URL}/post/${id}',
-        headers: {"Accept": "application/json", HttpHeaders.contentTypeHeader: 'application/json'});
+    var response = await http.get('${URL}/post/${id}', headers: {
+      "Accept": "application/json",
+      HttpHeaders.contentTypeHeader: 'application/json'
+    });
     if (response.statusCode! == 200) {}
-    Post post = Post.fromJson(json.decode(response.body));
+    User? user = await authRepository.user;
+    Post post = Post.fromJson(json.decode(response.body), user);
     print(json.decode(response.body));
     return post;
   }
 
   savePost(String title, String text) async {
-    var response = await http.post(
-        '${URL}/post/',
+    var response = await http.post('${URL}/post/',
         headers: {
           "Accept": "application/json",
           "Authorization": "Bearer ${await authRepository.jwt_token}",
           HttpHeaders.contentTypeHeader: 'application/json'
         },
-        body: json.encode({"text": text, "title": title})
-    );
+        body: json.encode({"text": text, "title": title}));
   }
 
   deletePost(Post post) {
     // posts.removeWhere((item) => item.id == post.id);
   }
 
-  changeLikeStatus(Post post) {
+  changeLikeStatus(Post post) async {
+    var response = await http.post('${URL}/post/${post.id}/like', headers: {
+      "Accept": "application/json",
+      "Authorization": "Bearer ${await authRepository.jwt_token}",
+      HttpHeaders.contentTypeHeader: 'application/json'
+    });
     post.isLiked = !(post.isLiked ?? true);
   }
 }

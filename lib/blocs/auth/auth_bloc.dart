@@ -11,9 +11,8 @@ part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   late AuthenticationRepository authenticationRepository;
-  User? _user;
 
-  User? get user => _user;
+  Future<User?> get user async => await authenticationRepository.user;
 
   AuthBloc(AuthenticationRepository authenticationRepository)
       : super(NotAuthorizedState()) {
@@ -21,30 +20,26 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<LoginEvent>((event, emit) async {
       await authenticationRepository
           .logIn(username: event.login, password: event.password)
-          .then((is_authorized) => {
+          .then((is_authorized) async => {
                 if (is_authorized == true)
-                  {
-                    emit(AuthorizedState(_user))
-                  }
+                  {emit(AuthorizedState(await authenticationRepository.user))}
                 else
-                  {
-                    emit(NotAuthorizedState())
-                  }
+                  {emit(NotAuthorizedState())}
               });
     });
     on<RegistrationEvent>((event, emit) {
-      _user = _user = User(
-          id: 55,
-          email: event.email,
-          link: event.website,
-          firstname: event.firstname,
-          lastname: event.lastname,
-          username: event.login);
-
-      emit(AuthorizedState(_user!));
+      user.then((value) => emit(AuthorizedState(value)));
     });
     on<LogoutEvent>((event, emit) {
       emit(NotAuthorizedState());
+    });
+    on<CheckAuth>((event, emit) async {
+      User? user = await authenticationRepository.user;
+      if (user != null) {
+        emit(AuthorizedState(user));
+      } else {
+        emit(NotAuthorizedState());
+      }
     });
   }
 }

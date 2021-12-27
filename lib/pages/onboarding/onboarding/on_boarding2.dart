@@ -7,15 +7,6 @@ class OnBoarding2 extends StatelessWidget
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Image.asset('assets/images/twitter.png', color: pageImageColor),
-        const Text('CHANGE AND RISE', style: pageTitleStyle),
-        const Text(
-          'Give others access to any file or folder you choose',
-          style: pageInfoStyle,
-        )
-      ],
-    );
+    return Image(image: AssetImage('assets/images/Экран приветствия №2.png'));
   }
 }

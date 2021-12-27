@@ -8,22 +8,6 @@ class OnBoarding1 extends StatelessWidget
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Column(
-      children: [
-        Container(
-            padding: const EdgeInsets.only(bottom: 45.0),
-            child: const Image(image: AssetImage('assets/images/facebook.png'))),
-        const SizedBox(
-            width: double.infinity,
-            child: Text('SECURED BACKUP')),
-        const SizedBox(
-          width: double.infinity,
-          child: Text(
-            'Keep your files in closed safe so you can\'t lose them',
-            style: pageInfoStyle,
-          ),
-        ),
-      ],
-    );
+    return Image(image: AssetImage('assets/images/Экран приветствия №1.png'));
   }
 }

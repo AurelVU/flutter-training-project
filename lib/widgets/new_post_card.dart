@@ -101,43 +101,47 @@ class _NewPostState extends State<NewPost2> {
                   // иконку и подсказку (hint)
                   decoration: const InputDecoration(
                       border: OutlineInputBorder(), hintText: "Текст")),
-              Row(
-                children: const [
-                  Expanded(
-                      child: Image(
-                          image: AssetImage('assets/images/facebook.png'),
-                          width: 100,
-                          height: 100)),
-                  Expanded(
-                      child: Image(
-                          image: AssetImage('assets/images/instagram.png'),
-                          width: 100,
-                          height: 100)),
-                  Expanded(
-                      child: Image(
-                          image: AssetImage('assets/images/twitter.png'),
-                          width: 100,
-                          height: 100)),
-                ],
+              Flexible(
+                child: Row(
+                  children: const [
+                    Expanded(
+                        child: Image(
+                            image: AssetImage('assets/images/facebook.png'),
+                            width: 100,
+                            height: 100)),
+                    Expanded(
+                        child: Image(
+                            image: AssetImage('assets/images/instagram.png'),
+                            width: 100,
+                            height: 100)),
+                    Expanded(
+                        child: Image(
+                            image: AssetImage('assets/images/twitter.png'),
+                            width: 100,
+                            height: 100)),
+                  ],
+                ),
               ),
-              Row(
-                children: [
-                  Container(
-                    child: IconButton(
-                      icon: const Icon(Icons.account_circle_sharp),
+              Flexible(
+                child: Row(
+                  children: [
+                    Container(
+                      child: IconButton(
+                        icon: const Icon(Icons.account_circle_sharp),
+                        onPressed: () {},
+                      ),
+                      margin: const EdgeInsets.only(right: 10.0),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.add_comment_rounded),
                       onPressed: () {},
                     ),
-                    margin: const EdgeInsets.only(right: 10.0),
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.add_comment_rounded),
-                    onPressed: () {},
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.share),
-                    onPressed: () {},
-                  ),
-                ],
+                    IconButton(
+                      icon: const Icon(Icons.share),
+                      onPressed: () {},
+                    ),
+                  ],
+                ),
               )
             ],
           )),

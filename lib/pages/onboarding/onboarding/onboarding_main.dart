@@ -29,12 +29,15 @@ class OnBoardingMain extends StatelessWidget {
         future: SharedPreferences.getInstance(),
         builder:
             (BuildContext context, AsyncSnapshot<SharedPreferences> snapshot) {
-          if (snapshot.connectionState != ConnectionState.done || snapshot.data == null)
+          if (snapshot.connectionState != ConnectionState.done ||
+              snapshot.data == null)
             return LoadingIndicator();
           else {
             snapshot.data!.setBool('passedOnboarding', true);
             return Onboarding(
               proceedButtonStyle: ProceedButtonStyle(
+                proceedpButtonText: Text('Общаться!'),
+                  proceedButtonColor: Color.fromRGBO(0x04, 0x5C, 0xC3, 1),
                 proceedButtonRoute: (context) {
                   return Navigator.pushNamedAndRemoveUntil(
                     context,
@@ -45,6 +48,8 @@ class OnBoardingMain extends StatelessWidget {
               ),
               isSkippable: true,
               pages: onBoardingPagesList,
+              pagesContentPadding: EdgeInsets.zero,
+              titleAndInfoPadding: EdgeInsets.zero,
               indicator: Indicator(
                 indicatorDesign: IndicatorDesign.line(
                   lineDesign: LineDesign(
@@ -53,7 +58,7 @@ class OnBoardingMain extends StatelessWidget {
                 ),
               ),
               //-------------Other properties--------------
-              //Color background,
+              background: Color.fromRGBO(0xDA, 0xDA, 0xDA, 1),
               //EdgeInsets pagesContentPadding
               //EdgeInsets titleAndInfoPadding
               //EdgeInsets footerPadding

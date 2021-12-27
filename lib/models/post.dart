@@ -23,7 +23,7 @@ class Post {
       required this.imageLinks,
       required this.isLiked});
 
-  static fromJson(json) {
+  static fromJson(json, User? user) {
     Post p = new Post(
         time: DateTime.parse(json['time_created']),
         id: json['id'],
@@ -33,8 +33,10 @@ class Post {
             firstname: 'test',
             lastname: 'test',
             link: 'test',
-            username: 'test'),
-        isLiked: null,
+            username: 'test',
+            posts: []
+        ),
+        isLiked: (user == null)? false : json['likes'].firstWhere((like) => like['user_id'] == user.id, orElse: () => null) != null,
         url: '',
         title: json['title'],
         text: json['text'],

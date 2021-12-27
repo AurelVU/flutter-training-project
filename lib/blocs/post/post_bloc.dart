@@ -16,11 +16,10 @@ class PostBloc extends Bloc<PostsEvent, PostState> {
 
   @override
   Stream<PostState> mapEventToState(PostsEvent event) async* {
-      yield PostsLoadInProgress();
       if (event is PostsLoadEvent)
       {
-        List<Post> posts = await postRepository.loadPosts();
-        yield PostsLoadSuccess(posts);
+        yield PostsLoadInProgress();
+        yield PostsLoadSuccess(await postRepository.loadPosts());
       }
       if (event is PostsAddedEvent)
       {
@@ -34,8 +33,8 @@ class PostBloc extends Bloc<PostsEvent, PostState> {
       }
       if (event is PostChangeLikeStatusEvent)
       {
-        postRepository.changeLikeStatus(event.post);
-        yield PostsLoadSuccess(await postRepository.loadPosts());
+        await postRepository.changeLikeStatus(event.post);
+        yield PostsLoadSuccess(postRepository.posts);
       }
   }
 }

@@ -28,14 +28,17 @@ class AuthorizationContent extends StatelessWidget {
           ),
           Text('Email'),
           TextFormField(
-            controller: loginController,
+              controller: loginController,
               // указываем для поля границу,
               // иконку и подсказку (hint)
               decoration: const InputDecoration(
                   border: OutlineInputBorder(), hintText: "Email")),
           Text('Password'),
           TextFormField(
-            controller: passwordController,
+              obscureText: true,
+              enableSuggestions: false,
+              autocorrect: false,
+              controller: passwordController,
               // указываем для поля границу,
               // иконку и подсказку (hint)
               decoration: const InputDecoration(
@@ -46,8 +49,9 @@ class AuthorizationContent extends StatelessWidget {
               Expanded(
                 child: ElevatedButton(
                   onPressed: () {
-                    BlocProvider.of<AuthBloc>(context)
-                        .add(LoginEvent(login: loginController.text.trim(), password: passwordController.text.trim()));
+                    BlocProvider.of<AuthBloc>(context).add(LoginEvent(
+                        login: loginController.text.trim(),
+                        password: passwordController.text.trim()));
                   },
                   child: Text('Войти'),
                 ),
@@ -58,9 +62,7 @@ class AuthorizationContent extends StatelessWidget {
             children: [
               Expanded(
                 child: ElevatedButton(
-                    onPressed: () {
-                    },
-                    child: Text('Регистрация')),
+                    onPressed: () {}, child: Text('Регистрация')),
               ),
             ],
           )
