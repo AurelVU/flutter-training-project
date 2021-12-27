@@ -18,9 +18,7 @@ class Feed extends StatelessWidget {
         print('refresh');
         List<Post> posts = state.posts;
 
-        return Stack(children: [
-          Expanded(
-            child: ListView.builder(
+        return ListView.builder(
                 itemCount: posts.length,
                 itemBuilder: (BuildContext context, int index) {
                   return GestureDetector(
@@ -31,9 +29,7 @@ class Feed extends StatelessWidget {
                               return SinglePostPage(posts[index]);
                             }));
                       });
-                }),
-          )
-        ]);
+                });
       } else {
         return const LoadingIndicator();
       }
