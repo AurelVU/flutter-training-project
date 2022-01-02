@@ -107,26 +107,38 @@ class PostCard extends StatelessWidget {
                 children: widgetImageList,
               ),
               Container(
-                child: Row(
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.account_circle_sharp),
-                      onPressed: () {},
+                height: 200,
+                child: Expanded(
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Row(
+                      children: [
+                        IconButton(
+                          icon: const Icon(Icons.account_circle_sharp),
+                          onPressed: () {},
+                        ),
+                        Text(post.author.username),
+                        IconButton(
+                          icon: const Icon(Icons.add_comment_rounded),
+                          onPressed: () {},
+                        ),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+
+                              IconButton(
+                                icon: const Icon(Icons.share),
+                                onPressed: () => share(),
+                              ),
+                              LikeButton(
+                                  isLiked: post.isLiked,
+                                  bubblesSize: 0,
+                                  onTap: onLikeButtonTapped),
+                            ],
+                        )
+                      ],
                     ),
-                    Text(post.author.username),
-                    IconButton(
-                      icon: const Icon(Icons.add_comment_rounded),
-                      onPressed: () {},
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.share),
-                      onPressed: () => share(),
-                    ),
-                    LikeButton(
-                        isLiked: post.isLiked,
-                        bubblesSize: 0,
-                        onTap: onLikeButtonTapped),
-                  ],
+                  ),
                 ),
               )
             ],

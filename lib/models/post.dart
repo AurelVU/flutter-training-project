@@ -24,6 +24,11 @@ class Post {
       required this.isLiked});
 
   static fromJson(json, User? user) {
+    List<String> urls = [];
+    for (var value in json['photos_url'] != null && json['photos_url'].length > 0 ? json['photos_url'] : [])
+    {
+      urls.add(value['url']);
+    }
     Post p = new Post(
         time: DateTime.parse(json['time_created']),
         id: json['id'],
@@ -40,7 +45,7 @@ class Post {
         url: '',
         title: json['title'],
         text: json['text'],
-        imageLinks: [],
+        imageLinks: urls,
         comments: []);
     return p;
   }
