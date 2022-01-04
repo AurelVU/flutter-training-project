@@ -1,11 +1,14 @@
+import 'package:app/blocs/comment/comment_bloc.dart';
 import 'package:app/blocs/post/post_bloc.dart';
 import 'package:app/blocs/tab/tab_bloc.dart';
-import 'package:app/pages/hose_screen.dart';
+import 'package:app/pages/home_screen.dart';
 import 'package:app/pages/new_post.dart';
 import 'package:app/pages/onboarding/onboarding/onboarding_main.dart';
 import 'package:app/repository/authentication_repository.dart';
+import 'package:app/repository/comment.dart';
 import 'package:app/repository/post.dart';
 import 'package:app/routes.dart';
+import 'package:app/src/const.dart';
 import 'package:app/widgets/loading_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,23 +18,31 @@ import 'blocs/auth/auth_bloc.dart';
 
 void main() {
   AuthenticationRepository authRep = AuthenticationRepository();
+  PostRepository postRepository = PostRepository(authRep);
+  CommentRepository commentRepository = CommentRepository(postRepository, authRep);
+
+  PostBloc postBloc = PostBloc(postRepository: postRepository);
+  CommentBloc commentBloc = CommentBloc(commentRepository, postBloc);
+  AuthBloc authBloc = AuthBloc(authRep);
+  TabBloc tabBloc = TabBloc();
+
   runApp(MultiRepositoryProvider(
       providers: [
         RepositoryProvider<PostRepository>(
-            create: (context) => PostRepository(authRep)),
+            create: (context) => postRepository),
         RepositoryProvider<AuthenticationRepository>(
             create: (context) => authRep),
+        RepositoryProvider<CommentRepository>(
+            create: (context) => commentRepository),
       ],
       child: MultiBlocProvider(providers: [
         BlocProvider<PostBloc>(
-            create: (BuildContext context) => PostBloc(
-                postRepository: RepositoryProvider.of<PostRepository>(context))
-              ..add(PostsLoadEvent())),
-        BlocProvider<TabBloc>(create: (BuildContext context) => TabBloc()),
+            create: (BuildContext context) => postBloc..add(PostsLoadEvent())),
+        BlocProvider<CommentBloc>(
+            create: (BuildContext context) => commentBloc),
+        BlocProvider<TabBloc>(create: (BuildContext context) => tabBloc),
         BlocProvider<AuthBloc>(
-            create: (BuildContext context) => AuthBloc(
-                RepositoryProvider.of<AuthenticationRepository>(context))
-              ..add(CheckAuth()))
+            create: (BuildContext context) => authBloc..add(CheckAuth()))
       ], child: App())));
 }
 
@@ -47,10 +58,10 @@ class App extends StatelessWidget {
         if (snapshot.data == null) {
           return const LoadingIndicator();
         }
-        final passedOnboarding = snapshot.data!.getBool('passedOnboarding');
+        final passedOnBoarding = snapshot.data!.getBool(ONBOARDINGSTATUS);
         return MaterialApp(
-          title: 'Flutter train Twitter',
-          initialRoute: passedOnboarding == null || passedOnboarding == false
+          title: APPNAME,
+          initialRoute: passedOnBoarding == null || passedOnBoarding == false
               ? AppRoutes.onboarding
               : AppRoutes.home,
           routes: {

@@ -12,6 +12,8 @@ class Feed extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    BlocProvider.of<PostBloc>(context).add(PostsLoadEvent());
+
     return BlocBuilder<PostBloc, PostState>(builder: (context, state)
     {
       if (state is PostsLoadSuccess) {

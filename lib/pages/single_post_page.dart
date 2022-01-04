@@ -1,7 +1,7 @@
 import 'package:app/blocs/comment/comment_bloc.dart';
+import 'package:app/blocs/post/post_bloc.dart';
 import 'package:app/models/post.dart';
-import 'package:app/models/user.dart';
-import 'package:app/models/comment.dart';
+import 'package:app/repository/authentication_repository.dart';
 import 'package:app/widgets/comment_widget.dart';
 import 'package:app/widgets/post_card.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,19 +9,51 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SinglePostPage extends StatelessWidget {
-  Post post;
+  final commentController = TextEditingController();
+  final Post post;
 
   SinglePostPage(this.post, {Key? key}) : super(key: key);
 
-  final commentController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(post.title),
-      ),
-      body: SafeArea(child: PostCard(post: post)),
-    );
+    return FutureBuilder(
+        future: RepositoryProvider.of<AuthenticationRepository>(context).user,
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          return BlocBuilder<PostBloc, PostState>(builder: (context, state) {
+            commentController.clear();
+
+            return Scaffold(
+                appBar: AppBar(
+                  title: Text(post.title),
+                ),
+                body: SafeArea(
+                    child: Column(children: [
+                  PostCard(post: post),
+                  const Text('Комментарии', style: TextStyle(fontSize: 22)),
+                  Expanded(
+                      child: ListView.builder(
+                          itemCount: post.comments.length,
+                          itemBuilder: (buildContext, index) {
+                            return CommentWidget(comment: post.comments[index]);
+                          })),
+                  (snapshot.data != null)
+                      ? Column(children: [
+                          TextFormField(
+                              controller: commentController,
+                              decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  hintText: "Комментарий")),
+                          ElevatedButton(
+                              onPressed: () {
+                                BlocProvider.of<CommentBloc>(context).add(
+                                    AddCommentEvent(
+                                        commentController.text, post.id));
+                              },
+                              child: const Text('Отправить'))
+                        ])
+                      : const Padding(padding: EdgeInsets.zero)
+                ])));
+          });
+        });
   }
 }

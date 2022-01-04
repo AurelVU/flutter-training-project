@@ -6,8 +6,7 @@ abstract class CommentEvent {}
 class AddCommentEvent extends CommentEvent
 {
   String comment;
+  int postId;
 
-  AddCommentEvent(this.comment);
-
-
+  AddCommentEvent(this.comment, this.postId);
 }

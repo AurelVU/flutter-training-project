@@ -18,12 +18,12 @@ class AuthorizationContent extends StatelessWidget {
         children: [
           Container(
             margin: const EdgeInsets.only(bottom: 5.0),
-            child: Text('Добро пожаловать',
+            child: const Text('Добро пожаловать',
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
           ),
           Container(
             margin: const EdgeInsets.only(bottom: 10.0),
-            child: Text('Авторизация',
+            child: const Text('Авторизация',
                 style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold)),
           ),
           Text('Email'),

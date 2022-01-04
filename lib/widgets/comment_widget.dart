@@ -16,14 +16,18 @@ class CommentWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Container(
-                margin:
-                const EdgeInsets.only(left: 10.0, right: 20.0),
+                margin: const EdgeInsets.only(left: 10.0, right: 20.0),
                 child: const Divider(
                   color: Colors.black,
                   height: 10,
                 )),
-            Text(comment.author.username, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-            Text(comment.text, style: TextStyle(fontSize: 18))
+            Padding(
+              padding: EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
+              child: Column(children: [
+                Text(comment.author, style: const TextStyle(fontSize: 20)),
+                Text(comment.text, style: const TextStyle(fontSize: 16))
+              ]),
+            )
           ],
         ),
       ),

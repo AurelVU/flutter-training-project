@@ -5,6 +5,10 @@ abstract class CommentState {}
 
 class CommentInitial extends CommentState {}
 
-class CommentLoadInProgress extends CommentEvent{
+class CommentLoadInProgress extends CommentState{
+
+}
+
+class CommentLoadSuccess extends CommentState{
 
 }

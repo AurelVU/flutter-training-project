@@ -7,6 +7,10 @@ class PostsLoadEvent extends PostsEvent {
 
 }
 
+class SoftPostsLoadEvent extends PostsEvent {
+
+}
+
 class PostsAddedEvent extends PostsEvent {
   String title;
   String text;

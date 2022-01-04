@@ -1,5 +1,6 @@
 import 'package:app/models/user.dart';
 import 'package:app/models/comment.dart';
+import 'package:app/src/const.dart';
 
 class Post {
   final String title;
@@ -29,7 +30,7 @@ class Post {
     {
       urls.add(value['url']);
     }
-    Post p = new Post(
+    Post p = Post(
         time: DateTime.parse(json['time_created']),
         id: json['id'],
         author: User(
@@ -42,11 +43,11 @@ class Post {
             posts: []
         ),
         isLiked: (user == null)? false : json['likes'].firstWhere((like) => like['user_id'] == user.id, orElse: () => null) != null,
-        url: '',
+        url: '$URL/posts/${json['id']}',
         title: json['title'],
         text: json['text'],
         imageLinks: urls,
-        comments: []);
+        comments: List<Comment>.from(json['comments'].map((model) => Comment.fromJson(model))));
     return p;
   }
 }

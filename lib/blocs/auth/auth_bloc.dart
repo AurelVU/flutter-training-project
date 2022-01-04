@@ -14,14 +14,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Future<User?> get user async => await authenticationRepository.user;
 
-  AuthBloc(AuthenticationRepository authenticationRepository)
+  AuthBloc(this.authenticationRepository)
       : super(NotAuthorizedState()) {
-    this.authenticationRepository = authenticationRepository;
     on<LoginEvent>((event, emit) async {
       await authenticationRepository
           .logIn(username: event.login, password: event.password)
-          .then((is_authorized) async => {
-                if (is_authorized == true)
+          .then((isAuthorized) async => {
+                if (isAuthorized == true)
                   {emit(AuthorizedState(await authenticationRepository.user))}
                 else
                   {emit(NotAuthorizedState())}

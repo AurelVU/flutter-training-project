@@ -21,6 +21,9 @@ class PostBloc extends Bloc<PostsEvent, PostState> {
         yield PostsLoadInProgress();
         yield PostsLoadSuccess(await postRepository.loadPosts());
       }
+      if (event is SoftPostsLoadEvent) {
+        yield PostsLoadSuccess(postRepository.posts);
+      }
       if (event is PostsAddedEvent)
       {
         postRepository.savePost(event.title, event.text);

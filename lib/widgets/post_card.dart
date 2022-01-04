@@ -57,45 +57,81 @@ class PostCard extends StatelessWidget {
     authRepository = RepositoryProvider.of<AuthenticationRepository>(context);
     List<Image> images = [];
     List<Image> imagesForButtons = [];
-    List<LimitedBox> widgetImageList = [];
+    List<Widget> widgetImageList = [];
     post.imageLinks.forEach((element) {
       images.add(Image.network(element));
       imagesForButtons.add(Image.network(element, fit: BoxFit.fill));
     });
-    imagesForButtons.forEach((element) => widgetImageList.add(
-          LimitedBox(
-            maxHeight: 250,
-            maxWidth: 250,
-            child: IconButton(
-              icon: element,
-              onPressed: () {
-                SwipeImageGallery(
-                        context: context,
-                        images: images,
-                        transitionDuration: 120,
-                        initialIndex: images.indexOf(element))
-                    .show();
-              },
-            ),
-          ),
-        ));
+    imagesForButtons.forEach((element) => widgetImageList.add(IconButton(
+          iconSize: 110,
+          icon: element,
+          onPressed: () {
+            SwipeImageGallery(
+                    context: context,
+                    images: images,
+                    transitionDuration: 120,
+                    initialIndex: images.indexOf(element))
+                .show();
+          },
+        )));
 
     return Card(
-        child: Column(mainAxisSize: MainAxisSize.min, children: [
-      ListTile(
-          trailing: Text(formatDateTime(post.time)),
-          title: Text(post.title), //Row(children: [
-          // Flexible(child: Text(post.title)),
-          // Flexible(
-          //   child: Row(children: [
-          //     Text(formatDateTime(post.time)),
-          //     IconButton(
-          //       icon: const Icon(Icons.more_vert),
-          //       onPressed: () {},
-          //     )
-          //   ]),
-          // )
-          // ]),
+      child: ListTile(
+          title:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            Text(post.title),
+            Row(children: [
+              Text(formatDateTime(post.time)),
+              PopupMenuButton(itemBuilder: (_) {
+                return [
+                  PopupMenuItem(
+                      child: const Text('Пожаловаться на запись'),
+                      onTap: () {
+                        Future<void>.delayed(
+                            const Duration(),
+                            () => showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: const Text('Жалоба подана'),
+                                    content: const Text(
+                                        'Жалоба на запись успешно подана'),
+                                    actions: [
+                                      TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: const Text('Ок')),
+                                    ],
+                                  );
+                                }));
+                      }),
+                  PopupMenuItem(
+                      child: const Text('Пожаловаться на пользователя'),
+                      onTap: () {
+                        Future<void>.delayed(
+                            const Duration(),
+                            () => showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: const Text('Жалоба подана'),
+                                    content: const Text(
+                                        'Жалоба на пользователя успешно подана'),
+                                    actions: [
+                                      TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: const Text('Ок')),
+                                    ],
+                                  );
+                                }));
+                      })
+                ];
+              })
+            ])
+          ]),
           subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
@@ -106,43 +142,36 @@ class PostCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: widgetImageList,
               ),
-              Container(
-                height: 200,
-                child: Expanded(
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Row(
-                      children: [
-                        IconButton(
-                          icon: const Icon(Icons.account_circle_sharp),
-                          onPressed: () {},
-                        ),
-                        Text(post.author.username),
-                        IconButton(
-                          icon: const Icon(Icons.add_comment_rounded),
-                          onPressed: () {},
-                        ),
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-
-                              IconButton(
-                                icon: const Icon(Icons.share),
-                                onPressed: () => share(),
-                              ),
-                              LikeButton(
-                                  isLiked: post.isLiked,
-                                  bubblesSize: 0,
-                                  onTap: onLikeButtonTapped),
-                            ],
-                        )
-                      ],
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(children: [
+                    IconButton(
+                      icon: const Icon(Icons.account_circle_sharp),
+                      onPressed: () {},
                     ),
-                  ),
-                ),
+                    Text(post.author.username),
+                    IconButton(
+                      icon: const Icon(Icons.add_comment_rounded),
+                      onPressed: () {},
+                    )
+                  ]),
+                  Row(
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.share),
+                        onPressed: () => share(),
+                      ),
+                      LikeButton(
+                          isLiked: post.isLiked,
+                          bubblesSize: 0,
+                          onTap: onLikeButtonTapped),
+                    ],
+                  )
+                ],
               )
             ],
           )),
-    ]));
+    );
   }
 }
