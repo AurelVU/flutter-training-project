@@ -30,6 +30,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       user.then((value) => emit(AuthorizedState(value)));
     });
     on<LogoutEvent>((event, emit) {
+      authenticationRepository.logOut();
       emit(NotAuthorizedState());
     });
     on<CheckAuth>((event, emit) async {

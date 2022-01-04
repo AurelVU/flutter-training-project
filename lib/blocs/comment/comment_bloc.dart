@@ -18,7 +18,7 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
     if (event is AddCommentEvent)
     {
       yield CommentLoadInProgress();
-      commentRepository.addComment(event.comment, event.postId);
+      await commentRepository.addComment(event.comment, event.postId);
       postBloc.add(SoftPostsLoadEvent());
       yield CommentLoadSuccess();
     }

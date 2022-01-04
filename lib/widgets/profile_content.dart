@@ -1,3 +1,4 @@
+import 'package:app/blocs/auth/auth_bloc.dart';
 import 'package:app/pages/single_post_page.dart';
 import 'package:app/repository/authentication_repository.dart';
 import 'package:app/widgets/loading_indicator.dart';
@@ -46,7 +47,14 @@ class ProfileContent extends StatelessWidget {
                                     fontSize: 17, fontStyle: FontStyle.italic))
                           ],
                   ),
-                )
+                ),
+                Flexible(
+                    child: ElevatedButton(
+                  child: Text('выйти'),
+                  onPressed: () {
+                    BlocProvider.of<AuthBloc>(context).add(LogoutEvent());
+                  },
+                ))
               ]),
               (snapshot.data == null)
                   ? const Text('Загрузка...')

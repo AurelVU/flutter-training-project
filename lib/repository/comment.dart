@@ -29,7 +29,7 @@ class CommentRepository {
         Post post = postRepository.posts.firstWhere((element) =>
         element.id == postId);
         User? user = await authRepository.user;
-        post.comments.add(Comment(author: user!.username, text: '', id: 999));
+        post.comments.add(Comment(author: user!.username, text: comment, id: 999));
         return true;
       } on StateError catch (_) {
         return false;
