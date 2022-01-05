@@ -43,7 +43,7 @@ class Post {
             posts: []
         ),
         isLiked: (user == null)? false : json['likes'].firstWhere((like) => like['user_id'] == user.id, orElse: () => null) != null,
-        url: '$URL/posts/${json['id']}',
+        url: 'https://$URL/post/${json['id']}',
         title: json['title'],
         text: json['text'],
         imageLinks: urls,

@@ -22,11 +22,15 @@ class CommentWidget extends StatelessWidget {
                   height: 10,
                 )),
             Padding(
-              padding: EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
-              child: Column(children: [
-                Text(comment.author, style: const TextStyle(fontSize: 20)),
-                Text(comment.text, style: const TextStyle(fontSize: 16))
-              ]),
+              padding:
+                  const EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(comment.author, style: const TextStyle(fontSize: 20)),
+                    Text(comment.text, style: const TextStyle(fontSize: 16))
+                  ]),
             )
           ],
         ),

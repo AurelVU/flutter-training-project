@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../widgets/feed.dart';
+import 'adding_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -18,15 +19,29 @@ class HomeScreen extends StatelessWidget {
           return Scaffold(
               appBar: AppBar(
                 title: Text(activeTab.title),
+                actions: authState is AuthorizedState
+                    ? [
+                        IconButton(
+                          icon: Icon(Icons.dehaze),
+                          onPressed: () => {
+                            Navigator.of(context)
+                                .push(MaterialPageRoute(builder: (_) {
+                              return const AddingScreen();
+                            }))
+                          },
+                        ),
+                      ]
+                    : [],
               ),
               body: activeTab is FeedTab ? Feed() : Profile(),
-              floatingActionButton: authState is AuthorizedState ?
-              FloatingActionButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, AppRoutes.new_post);
-                },
-                child: const Icon(Icons.add),
-              ) : null,
+              floatingActionButton: authState is AuthorizedState
+                  ? FloatingActionButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, AppRoutes.new_post);
+                      },
+                      child: const Icon(Icons.add),
+                    )
+                  : null,
               bottomNavigationBar: TabSelector(
                 activeTab: activeTab is FeedTab ? AppTab.feed : AppTab.profile,
                 onTabSelected: (tab) =>

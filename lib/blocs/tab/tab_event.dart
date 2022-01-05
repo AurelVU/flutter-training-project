@@ -13,3 +13,7 @@ class TabUpdated extends TabEvent {
   @override
   String toString() => 'TabUpdated { tab: $tab }';
 }
+
+class ToRegistrationEvent extends TabEvent {}
+
+class ToAuthorizationEvent extends TabEvent {}

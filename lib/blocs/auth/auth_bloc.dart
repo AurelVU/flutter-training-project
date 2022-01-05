@@ -27,6 +27,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
               });
     });
     on<RegistrationEvent>((event, emit) {
+      // ToDo: Доделать регистрацию
       user.then((value) => emit(AuthorizedState(value)));
     });
     on<LogoutEvent>((event, emit) {

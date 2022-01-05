@@ -47,14 +47,7 @@ class ProfileContent extends StatelessWidget {
                                     fontSize: 17, fontStyle: FontStyle.italic))
                           ],
                   ),
-                ),
-                Flexible(
-                    child: ElevatedButton(
-                  child: Text('выйти'),
-                  onPressed: () {
-                    BlocProvider.of<AuthBloc>(context).add(LogoutEvent());
-                  },
-                ))
+                )
               ]),
               (snapshot.data == null)
                   ? const Text('Загрузка...')
@@ -81,7 +74,7 @@ class ProfileContent extends StatelessWidget {
                                       await Navigator.of(context)
                                           .push(MaterialPageRoute(builder: (_) {
                                         return SinglePostPage(
-                                            snapshot.data?.posts[index]);
+                                            snapshot.data?.posts[index].id);
                                       }));
                                     });
                               })

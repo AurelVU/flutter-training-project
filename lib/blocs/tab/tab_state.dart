@@ -15,4 +15,14 @@ class ProfileTab extends TabState {
   String get title => 'Profile';
 }
 
+class AuthTab extends TabState {
+  @override
+  String get title => 'Авторизация';
+}
+
+class RegistrationTab extends TabState {
+  @override
+  String get title => 'Регистрация';
+}
+
 enum AppTab { feed, profile }
