@@ -26,28 +26,35 @@ class Post {
 
   static fromJson(json, User? user) {
     List<String> urls = [];
-    for (var value in json['photos_url'] != null && json['photos_url'].length > 0 ? json['photos_url'] : [])
-    {
-      urls.add(value['url']);
+    for (var value
+        in json['photos_url'] != null && json['photos_url'].length > 0
+            ? json['photos_url']
+            : []) {
+      if (value['url'] != null) {
+        urls.add(value['url']);
+      }
     }
     Post p = Post(
         time: DateTime.parse(json['time_created']),
         id: json['id'],
         author: User(
-            id: 1,
-            email: 'test',
-            firstname: 'test',
-            lastname: 'test',
-            link: 'test',
-            username: 'test',
-            posts: []
-        ),
-        isLiked: (user == null)? false : json['likes'].firstWhere((like) => like['user_id'] == user.id, orElse: () => null) != null,
+            id: json['author']['id'],
+            firstname: json['author']['firstname'],
+            lastname: json['author']['lastname'],
+            link: 'https://$URL/user/${json["author"]["id"]}',
+            username: json['author']['nickname'],
+            posts: []),
+        isLiked: (user == null)
+            ? false
+            : json['likes'].firstWhere((like) => like['user_id'] == user.id,
+                    orElse: () => null) !=
+                null,
         url: 'https://$URL/post/${json['id']}',
         title: json['title'],
         text: json['text'],
         imageLinks: urls,
-        comments: List<Comment>.from(json['comments'].map((model) => Comment.fromJson(model))));
+        comments: List<Comment>.from(
+            json['comments'].map((model) => Comment.fromJson(model))));
     return p;
   }
 }

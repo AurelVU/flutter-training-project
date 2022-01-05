@@ -6,6 +6,7 @@ import 'package:app/pages/new_post.dart';
 import 'package:app/pages/onboarding/onboarding/onboarding_main.dart';
 import 'package:app/repository/authentication_repository.dart';
 import 'package:app/repository/comment.dart';
+import 'package:app/repository/image.dart';
 import 'package:app/repository/post.dart';
 import 'package:app/routes.dart';
 import 'package:app/src/const.dart';
@@ -18,13 +19,14 @@ import 'blocs/auth/auth_bloc.dart';
 
 void main() {
   AuthenticationRepository authRep = AuthenticationRepository();
-  PostRepository postRepository = PostRepository(authRep);
+  ImageRepository imageRepository = ImageRepository();
+  PostRepository postRepository = PostRepository(authRep, imageRepository);
   CommentRepository commentRepository = CommentRepository(postRepository, authRep);
 
+  TabBloc tabBloc = TabBloc();
   PostBloc postBloc = PostBloc(postRepository: postRepository);
   CommentBloc commentBloc = CommentBloc(commentRepository, postBloc);
-  AuthBloc authBloc = AuthBloc(authRep);
-  TabBloc tabBloc = TabBloc();
+  AuthBloc authBloc = AuthBloc(authRep, tabBloc);
 
   runApp(MultiRepositoryProvider(
       providers: [
@@ -37,7 +39,7 @@ void main() {
       ],
       child: MultiBlocProvider(providers: [
         BlocProvider<PostBloc>(
-            create: (BuildContext context) => postBloc..add(PostsLoadEvent())),
+            create: (BuildContext context) => postBloc),
         BlocProvider<CommentBloc>(
             create: (BuildContext context) => commentBloc),
         BlocProvider<TabBloc>(create: (BuildContext context) => tabBloc),

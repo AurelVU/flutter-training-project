@@ -14,8 +14,9 @@ class SoftPostsLoadEvent extends PostsEvent {
 class PostsAddedEvent extends PostsEvent {
   String title;
   String text;
+  List<String> imagePaths;
 
-  PostsAddedEvent({required this.title, required this.text});
+  PostsAddedEvent({required this.title, required this.text, required this.imagePaths});
 }
 
 class PostsDeletedEvent extends PostsEvent {
@@ -23,6 +24,12 @@ class PostsDeletedEvent extends PostsEvent {
 
   PostsDeletedEvent({required this.post});
 }
+
+
+class NextPageEvent extends PostsEvent {
+
+}
+
 
 class PostChangeLikeStatusEvent extends PostsEvent {
   final Post post;

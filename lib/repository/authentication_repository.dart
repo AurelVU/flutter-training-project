@@ -44,6 +44,28 @@ class AuthenticationRepository {
     storage.delete(key: 'jwt');
   }
 
+  Future<bool> registration(
+      {required String username,
+      required String password,
+      required String firstname,
+      required String lastname,
+      required String website}) async {
+    var url = Uri.https(URL, '/user/registration');
+    var response = await http.post(url,
+        headers: {
+          HttpHeaders.acceptHeader: "application/json",
+          HttpHeaders.contentTypeHeader: 'application/json'
+        },
+        body: jsonEncode({
+          "nickname": username,
+          "password": password,
+          "lastname": lastname,
+          "website": website,
+          "firstname": firstname
+        }));
+    return response.statusCode >= 200 && response.statusCode < 300;
+  }
+
   Future<String?> get jwtToken async {
     return await storage.read(key: 'jwt');
   }
@@ -61,8 +83,7 @@ class AuthenticationRepository {
     if (response.statusCode == 200) {
       User user = User.fromJson(json: json.decode(response.body), userId: id);
       return user;
-    }
-    else {
+    } else {
       return null;
     }
   }

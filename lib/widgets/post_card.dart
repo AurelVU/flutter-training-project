@@ -60,7 +60,7 @@ class PostCard extends StatelessWidget {
     List<Widget> widgetImageList = [];
     post.imageLinks.forEach((element) {
       images.add(Image.network(element));
-      imagesForButtons.add(Image.network(element, fit: BoxFit.fill));
+      imagesForButtons.add(Image.network(element, fit: BoxFit.cover));
     });
     imagesForButtons.forEach((element) => widgetImageList.add(IconButton(
           iconSize: 110,
@@ -151,10 +151,10 @@ class PostCard extends StatelessWidget {
                       onPressed: () {},
                     ),
                     Text(post.author.username),
-                    IconButton(
-                      icon: const Icon(Icons.add_comment_rounded),
-                      onPressed: () {},
-                    )
+                    // IconButton( ToDo: При необходимости вернуть
+                    //   icon: const Icon(Icons.add_comment_rounded),
+                    //   onPressed: () {},
+                    // )
                   ]),
                   Row(
                     children: [

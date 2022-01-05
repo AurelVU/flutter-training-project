@@ -26,7 +26,7 @@ class PostBloc extends Bloc<PostsEvent, PostState> {
       }
       if (event is PostsAddedEvent)
       {
-        await postRepository.savePost(event.title, event.text);
+        await postRepository.savePost(event.title, event.text, event.imagePaths);
         yield PostsLoadSuccess(await postRepository.loadPosts());
       }
       if (event is PostsDeletedEvent)
@@ -39,5 +39,9 @@ class PostBloc extends Bloc<PostsEvent, PostState> {
         await postRepository.changeLikeStatus(event.post);
         yield PostsLoadSuccess(postRepository.posts);
       }
+      // if (event is NextPageEvent) {
+      //   await postRepository.loadNextPage();
+      //   yield PostsLoadSuccess(postRepository.posts);
+      // }
   }
 }

@@ -3,7 +3,6 @@ import 'package:app/models/post.dart';
 class User {
   final int id;
   String username;
-  String email;
   String firstname;
   String lastname;
   String link;
@@ -12,7 +11,6 @@ class User {
   User(
       {required this.id,
       required this.username,
-      required this.email,
       required this.firstname,
       required this.lastname,
       required this.link,
@@ -21,7 +19,6 @@ class User {
   static fromJson({json, userId, User? currentUser = null}) {
     Iterable l = json['posts'];
     User u = User(
-        email: '',
         link: json['website'],
         username: json['nickname'],
         id: userId,

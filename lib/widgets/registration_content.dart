@@ -5,13 +5,20 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class RegistrationContent extends StatelessWidget {
+class RegistrationContent extends StatefulWidget {
   var loginController = TextEditingController();
   var passwordController = TextEditingController();
   var firstnameController = TextEditingController();
   var lastnameController = TextEditingController();
   var password2Controller = TextEditingController();
   var websiteController = TextEditingController();
+
+  @override
+  State<RegistrationContent> createState() => _RegistrationContentState();
+}
+
+class _RegistrationContentState extends State<RegistrationContent> {
+
 
   @override
   Widget build(BuildContext context) {
@@ -33,28 +40,28 @@ class RegistrationContent extends StatelessWidget {
           ),
           const Text('Логин'),
           TextFormField(
-              controller: loginController,
+              controller: widget.loginController,
               // указываем для поля границу,
               // иконку и подсказку (hint)
               decoration: const InputDecoration(
                   border: OutlineInputBorder(), hintText: "Логин")),
           const Text('website'),
           TextFormField(
-              controller: websiteController,
+              controller: widget.websiteController,
               // указываем для поля границу,
               // иконку и подсказку (hint)
               decoration: const InputDecoration(
                   border: OutlineInputBorder(), hintText: "website")),
           const Text('Имя'),
           TextFormField(
-              controller: firstnameController,
+              controller: widget.firstnameController,
               // указываем для поля границу,
               // иконку и подсказку (hint)
               decoration: const InputDecoration(
                   border: OutlineInputBorder(), hintText: "Имя")),
           const Text('Фамилия'),
           TextFormField(
-              controller: lastnameController,
+              controller: widget.lastnameController,
               // указываем для поля границу,
               // иконку и подсказку (hint)
               decoration: const InputDecoration(
@@ -64,7 +71,7 @@ class RegistrationContent extends StatelessWidget {
               obscureText: true,
               enableSuggestions: false,
               autocorrect: false,
-              controller: passwordController,
+              controller: widget.passwordController,
               // указываем для поля границу,
               // иконку и подсказку (hint)
               decoration: const InputDecoration(
@@ -74,7 +81,7 @@ class RegistrationContent extends StatelessWidget {
               obscureText: true,
               enableSuggestions: false,
               autocorrect: false,
-              controller: password2Controller,
+              controller: widget.password2Controller,
               // указываем для поля границу,
               // иконку и подсказку (hint)
               decoration: const InputDecoration(
@@ -84,18 +91,18 @@ class RegistrationContent extends StatelessWidget {
               Expanded(
                 child: ElevatedButton(
                   onPressed: () {
-                    if (passwordController.text.trim() ==
-                        password2Controller.text.trim()) {
+                    if (widget.passwordController.text.trim() ==
+                        widget.password2Controller.text.trim()) {
                       BlocProvider.of<AuthBloc>(context).add(RegistrationEvent(
-                          login: loginController.text.trim(),
-                          password: passwordController.text.trim(),
+                          login: widget.loginController.text.trim(),
+                          password: widget.passwordController.text.trim(),
                           email: '',
-                          website: websiteController.text.trim(),
-                          firstname: firstnameController.text.trim(),
-                          lastname: lastnameController.text.trim()));
+                          website: widget.websiteController.text.trim(),
+                          firstname: widget.firstnameController.text.trim(),
+                          lastname: widget.lastnameController.text.trim()));
                     }
                   },
-                  child: const Text('Войти'),
+                  child: const Text('Регистрация'),
                 ),
               ),
             ],

@@ -5,10 +5,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class AuthorizationContent extends StatelessWidget {
+class AuthorizationContent extends StatefulWidget {
   var loginController = TextEditingController();
   var passwordController = TextEditingController();
 
+  @override
+  State<AuthorizationContent> createState() => _AuthorizationContentState();
+}
+
+class _AuthorizationContentState extends State<AuthorizationContent> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -29,7 +34,7 @@ class AuthorizationContent extends StatelessWidget {
           ),
           const Text('Логин'),
           TextFormField(
-              controller: loginController,
+              controller: widget.loginController,
               // указываем для поля границу,
               // иконку и подсказку (hint)
               decoration: const InputDecoration(
@@ -39,7 +44,7 @@ class AuthorizationContent extends StatelessWidget {
               obscureText: true,
               enableSuggestions: false,
               autocorrect: false,
-              controller: passwordController,
+              controller: widget.passwordController,
               // указываем для поля границу,
               // иконку и подсказку (hint)
               decoration: const InputDecoration(
@@ -51,8 +56,8 @@ class AuthorizationContent extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: () {
                     BlocProvider.of<AuthBloc>(context).add(LoginEvent(
-                        login: loginController.text.trim(),
-                        password: passwordController.text.trim()));
+                        login: widget.loginController.text.trim(),
+                        password: widget.passwordController.text.trim()));
                   },
                   child: const Text('Войти'),
                 ),

@@ -2,6 +2,7 @@ import 'package:app/blocs/comment/comment_bloc.dart';
 import 'package:app/blocs/post/post_bloc.dart';
 import 'package:app/models/post.dart';
 import 'package:app/repository/authentication_repository.dart';
+import 'package:app/widgets/comment_field.dart';
 import 'package:app/widgets/comment_widget.dart';
 import 'package:app/widgets/post_card.dart';
 import 'package:flutter/cupertino.dart';
@@ -20,7 +21,10 @@ class SinglePostPage extends StatelessWidget {
         future: RepositoryProvider.of<AuthenticationRepository>(context).user,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           return BlocBuilder<PostBloc, PostState>(builder: (context, state) {
-            Post post = BlocProvider.of<PostBloc>(context).postRepository.posts.firstWhere((element) => element.id == postId);
+            Post post = BlocProvider.of<PostBloc>(context)
+                .postRepository
+                .posts
+                .firstWhere((element) => element.id == postId);
             commentController.clear();
 
             return Scaffold(
@@ -39,16 +43,14 @@ class SinglePostPage extends StatelessWidget {
                           })),
                   (snapshot.data != null)
                       ? Column(children: [
-                          TextFormField(
-                              controller: commentController,
-                              decoration: const InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  hintText: "Комментарий")),
+                          CommentTextWidget(commentController),
                           ElevatedButton(
                               onPressed: () {
-                                BlocProvider.of<CommentBloc>(context).add(
-                                    AddCommentEvent(
-                                        commentController.text, post.id));
+                                if (commentController.text.isNotEmpty) {
+                                  BlocProvider.of<CommentBloc>(context).add(
+                                      AddCommentEvent(
+                                          commentController.text, post.id));
+                                }
                               },
                               child: const Text('Отправить'))
                         ])
