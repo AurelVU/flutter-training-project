@@ -30,8 +30,8 @@ class PostRepository {
     return posts;
   }
 
-  Future<List<Post>> loadNextPage() async {
-    var args = {'page': (this.posts.length % 5).toString()};
+  Future<List<Post>> loadNextPage(int index) async {
+    var args = {'page': index.toString()};
     var url = Uri.https(URL, '/post/', args);
     var response = await http.get(url, headers: {
       HttpHeaders.acceptHeader: "application/json",

@@ -39,7 +39,7 @@ void main() {
       ],
       child: MultiBlocProvider(providers: [
         BlocProvider<PostBloc>(
-            create: (BuildContext context) => postBloc),
+            create: (BuildContext context) => postBloc..add(LoadPage(0))),
         BlocProvider<CommentBloc>(
             create: (BuildContext context) => commentBloc),
         BlocProvider<TabBloc>(create: (BuildContext context) => tabBloc),

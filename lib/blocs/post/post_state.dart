@@ -7,8 +7,9 @@ class PostInitial extends PostState {}
 
 class PostsLoadSuccess extends PostState{
   final List<Post> posts;
+  final bool feedIsOver;
 
-  PostsLoadSuccess(this.posts);
+  PostsLoadSuccess(this.posts, this.feedIsOver);
 }
 
 class PostsLoadInProgress extends PostState{

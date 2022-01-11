@@ -16,32 +16,34 @@ class PostBloc extends Bloc<PostsEvent, PostState> {
 
   @override
   Stream<PostState> mapEventToState(PostsEvent event) async* {
-      if (event is PostsLoadEvent)
-      {
-        yield PostsLoadInProgress();
-        yield PostsLoadSuccess(await postRepository.loadPosts());
-      }
+      // if (event is PostsLoadEvent)
+      // {
+      //   yield PostsLoadInProgress();
+      //   yield PostsLoadSuccess(await postRepository.loadPosts());
+      // }
       if (event is SoftPostsLoadEvent) {
-        yield PostsLoadSuccess(postRepository.posts);
+        yield PostsLoadSuccess(postRepository.posts, false);
       }
       if (event is PostsAddedEvent)
       {
         await postRepository.savePost(event.title, event.text, event.imagePaths);
-        yield PostsLoadSuccess(await postRepository.loadPosts());
+        yield PostsLoadSuccess(await postRepository.loadPosts(), false);
       }
       if (event is PostsDeletedEvent)
       {
         await postRepository.deletePost(event.post);
-        yield PostsLoadSuccess(await postRepository.loadPosts());
+        yield PostsLoadSuccess(await postRepository.loadPosts(), false);
       }
       if (event is PostChangeLikeStatusEvent)
       {
         await postRepository.changeLikeStatus(event.post);
-        yield PostsLoadSuccess(postRepository.posts);
+        yield PostsLoadSuccess(postRepository.posts, false);
       }
-      // if (event is NextPageEvent) {
-      //   await postRepository.loadNextPage();
-      //   yield PostsLoadSuccess(postRepository.posts);
-      // }
+      if (event is LoadPage) {
+        print("Load ${event.indexPage}");
+        List<Post> posts = await postRepository.loadNextPage(event.indexPage);
+        print("Loaded ${posts.length} elements");
+        yield PostsLoadSuccess(postRepository.posts, posts.isEmpty);
+      }
   }
 }

@@ -58,10 +58,14 @@ class PostCard extends StatelessWidget {
     List<Image> images = [];
     List<Image> imagesForButtons = [];
     List<Widget> widgetImageList = [];
-    post.imageLinks.forEach((element) {
+    for (var element in post.imageLinks) {
+      try {
       images.add(Image.network(element));
-      imagesForButtons.add(Image.network(element, fit: BoxFit.cover));
-    });
+      imagesForButtons.add(Image.network(element, fit: BoxFit.cover)); }
+      catch (_) {
+
+      }
+    }
     imagesForButtons.forEach((element) => widgetImageList.add(IconButton(
           iconSize: 110,
           icon: element,

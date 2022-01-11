@@ -3,9 +3,9 @@ part of 'post_bloc.dart';
 @immutable
 abstract class PostsEvent {}
 
-class PostsLoadEvent extends PostsEvent {
-
-}
+// class PostsLoadEvent extends PostsEvent {
+//
+// }
 
 class SoftPostsLoadEvent extends PostsEvent {
 
@@ -26,8 +26,10 @@ class PostsDeletedEvent extends PostsEvent {
 }
 
 
-class NextPageEvent extends PostsEvent {
+class LoadPage extends PostsEvent {
+  final int indexPage;
 
+  LoadPage(this.indexPage);
 }
 
 
