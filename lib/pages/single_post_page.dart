@@ -1,3 +1,4 @@
+import 'package:app/blocs/auth/auth_bloc.dart';
 import 'package:app/blocs/comment/comment_bloc.dart';
 import 'package:app/blocs/post/post_bloc.dart';
 import 'package:app/models/post.dart';
@@ -26,7 +27,7 @@ class SinglePostPage extends StatelessWidget {
           future: RepositoryProvider.of<AuthenticationRepository>(context).user,
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             Post post;
-            if (snapshot.data == null) {
+            if (snapshot.data == null && state is NotAuthorizedState) {
               return Scaffold(
                   appBar: AppBar(
                     title: Text(''),
