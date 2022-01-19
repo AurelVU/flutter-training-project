@@ -5,6 +5,7 @@ import 'package:app/models/user.dart';
 import 'package:app/repository/authentication_repository.dart';
 import 'package:app/widgets/comment_field.dart';
 import 'package:app/widgets/comment_widget.dart';
+import 'package:app/widgets/loading_indicator.dart';
 import 'package:app/widgets/post_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +26,14 @@ class SinglePostPage extends StatelessWidget {
           future: RepositoryProvider.of<AuthenticationRepository>(context).user,
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             Post post;
+            if (snapshot.data == null) {
+              return Scaffold(
+                  appBar: AppBar(
+                    title: Text(''),
+                  ),
+                  body: SafeArea(child: LoadingIndicator()));
+            }
+
             if (isSourceProfile) {
               post = (snapshot.data! as User)
                   .posts
