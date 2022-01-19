@@ -15,7 +15,7 @@ class Profile extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<AuthBloc, AuthState>(builder: (context, authState) {
       if (authState is AuthorizedState) {
-        return const ProfileContent();
+        return ProfileContent();
       }
       if (authState is NotAuthorizedState) {
         return BlocBuilder<TabBloc, TabState>(builder: (context, state) {

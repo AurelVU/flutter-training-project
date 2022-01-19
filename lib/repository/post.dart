@@ -103,6 +103,17 @@ class PostRepository {
       } else {
         post.likeCount--;
       }
+      try {
+        var tmp = posts.firstWhere((element) => element.id == post.id);
+        if (tmp.isLiked != post.isLiked) {
+          tmp.isLiked = !(tmp.isLiked ?? true);
+          if (tmp.isLiked == true) {
+            tmp.likeCount++;
+          } else {
+            tmp.likeCount--;
+          }
+        }
+      } catch (_) {}
       return true;
     }
     return false;
