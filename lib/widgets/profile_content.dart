@@ -82,7 +82,7 @@ class ProfileContent extends StatelessWidget {
                                       await Navigator.of(context)
                                           .push(MaterialPageRoute(builder: (_) {
                                         return SinglePostPage(
-                                            snapshot.data?.posts[index]);
+                                            snapshot.data?.posts[index].id, true);
                                       }));
                                     });
                               })

@@ -20,25 +20,27 @@ class CommentRepository {
     var response = await http.post(url,
         headers: {
           HttpHeaders.acceptHeader: "application/json",
-          HttpHeaders.authorizationHeader: "Bearer ${await authRepository.jwtToken}",
+          HttpHeaders.authorizationHeader:
+              "Bearer ${await authRepository.jwtToken}",
           HttpHeaders.contentTypeHeader: 'application/json'
         },
         body: json.encode({"text": comment}));
     if (response.statusCode >= 200 && response.statusCode < 300) {
       User? user = await authRepository.user;
       try {
-        Post post = postRepository.posts.firstWhere((element) =>
-        element.id == postId);
-        post.comments.add(
-            Comment(author: user!.username, text: comment, id: 999));
-      } catch(_) {}
-        try {
-          Post userPost = user!.posts.firstWhere((element) => element.id == postId);
-          userPost.comments.add(Comment(author: user.username, text: comment, id: 999));
-        } catch (_) {}
-        return true;
-    }
-    else {
+        Post post =
+            postRepository.posts.firstWhere((element) => element.id == postId);
+        post.comments
+            .add(Comment(author: user!.username, text: comment, id: 999));
+      } catch (_) {}
+      try {
+        Post userPost =
+            user!.posts.firstWhere((element) => element.id == postId);
+        userPost.comments
+            .add(Comment(author: user.username, text: comment, id: 999));
+      } catch (_) {}
+      return true;
+    } else {
       return false;
     }
   }
