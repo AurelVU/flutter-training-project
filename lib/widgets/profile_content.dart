@@ -18,7 +18,16 @@ class ProfileContent extends StatelessWidget {
           return Column(children: [
             Column(children: [
               Row(children: [
-                const Icon(Icons.account_circle_sharp, size: 100),
+                snapshot.data == null || snapshot.data?.avatarUrl == null
+                    ? const Icon(Icons.account_circle_sharp, size: 100)
+                    : Container(
+                      margin: const EdgeInsets.all(15),
+                      child: CircleAvatar(
+                          radius: 50,
+                          backgroundImage: NetworkImage(snapshot.data.avatarUrl),
+                          backgroundColor: Colors.transparent,
+                        ),
+                    ),
                 Container(width: 20),
                 Flexible(
                   child: Column(

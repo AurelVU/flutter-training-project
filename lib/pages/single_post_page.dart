@@ -33,9 +33,9 @@ class SinglePostPage extends StatelessWidget {
                 ),
                 body: SafeArea(
                     child: Column(children: [
-                  PostCard(post: post),
-                  const Text('Комментарии', style: TextStyle(fontSize: 22)),
-                  Expanded(
+                      PostCard(post: post),
+                      Text('Комментарии ${post.comments.length}', style: TextStyle(fontSize: 22)),
+                      Expanded(
                       child: ListView.builder(
                           itemCount: post.comments.length,
                           itemBuilder: (buildContext, index) {

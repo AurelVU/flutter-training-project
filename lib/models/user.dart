@@ -7,6 +7,7 @@ class User {
   String lastname;
   String link;
   List<Post> posts;
+  String? avatarUrl;
 
   User(
       {required this.id,
@@ -14,7 +15,8 @@ class User {
       required this.firstname,
       required this.lastname,
       required this.link,
-      required this.posts});
+      required this.posts,
+      required this.avatarUrl});
 
   static fromJson({json, userId, User? currentUser = null}) {
     Iterable l = json['posts'];
@@ -24,7 +26,9 @@ class User {
         id: userId,
         lastname: json['lastname'],
         firstname: json['firstname'],
-        posts: []);
+        posts: [],
+        avatarUrl: json['avatar_url']
+    );
     List<Post> posts = List<Post>.from(
         l.map((model) => Post.fromJson(model, currentUser ?? u)));
     u.posts = posts;

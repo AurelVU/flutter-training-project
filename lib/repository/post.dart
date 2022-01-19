@@ -25,7 +25,7 @@ class PostRepository {
     Iterable l = json.decode(response.body);
     User? user = await authRepository.user;
     List<Post> posts =
-        List<Post>.from(l.map((model) => Post.fromJson(model, user)));
+    List<Post>.from(l.map((model) => Post.fromJson(model, user)));
     this.posts = posts;
     return posts;
   }
@@ -71,7 +71,7 @@ class PostRepository {
         headers: {
           HttpHeaders.acceptHeader: "application/json",
           HttpHeaders.authorizationHeader:
-              "Bearer ${await authRepository.jwtToken}",
+          "Bearer ${await authRepository.jwtToken}",
           HttpHeaders.contentTypeHeader: 'application/json'
         },
         body: json.encode({
@@ -93,11 +93,16 @@ class PostRepository {
     var response = await http.post(url, headers: {
       HttpHeaders.acceptHeader: "application/json",
       HttpHeaders.authorizationHeader:
-          "Bearer ${await authRepository.jwtToken}",
+      "Bearer ${await authRepository.jwtToken}",
       HttpHeaders.contentTypeHeader: 'application/json'
     });
     if (response.statusCode == 200) {
       post.isLiked = !(post.isLiked ?? true);
+      if (post.isLiked == true) {
+        post.likeCount++;
+      } else {
+        post.likeCount--;
+      }
       return true;
     }
     return false;

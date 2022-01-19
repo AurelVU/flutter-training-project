@@ -26,16 +26,19 @@ class PostBloc extends Bloc<PostsEvent, PostState> {
       }
       if (event is PostsAddedEvent)
       {
+        yield PostsLoadInProgress();
         await postRepository.savePost(event.title, event.text, event.imagePaths);
         yield PostsLoadSuccess(await postRepository.loadPosts(), false);
       }
       if (event is PostsDeletedEvent)
       {
+        yield PostsLoadInProgress();
         await postRepository.deletePost(event.post);
         yield PostsLoadSuccess(await postRepository.loadPosts(), false);
       }
       if (event is PostChangeLikeStatusEvent)
       {
+        yield PostsSoftUpdating(postRepository.posts, false);
         await postRepository.changeLikeStatus(event.post);
         yield PostsLoadSuccess(postRepository.posts, false);
       }

@@ -12,6 +12,13 @@ class PostsLoadSuccess extends PostState{
   PostsLoadSuccess(this.posts, this.feedIsOver);
 }
 
+class PostsSoftUpdating extends PostState{
+  final List<Post> posts;
+  final bool feedIsOver;
+
+  PostsSoftUpdating(this.posts, this.feedIsOver);
+}
+
 class PostsLoadInProgress extends PostState{
 
 }

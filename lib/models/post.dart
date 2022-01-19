@@ -11,6 +11,7 @@ class Post {
   final int id;
   final String url;
   final List<String> imageLinks;
+  int likeCount;
   bool? isLiked;
 
   Post(
@@ -22,6 +23,7 @@ class Post {
       required this.text,
       required this.url,
       required this.imageLinks,
+      required this.likeCount,
       required this.isLiked});
 
   static fromJson(json, User? user) {
@@ -43,12 +45,14 @@ class Post {
             lastname: json['author']['lastname'],
             link: 'https://$URL/user/${json["author"]["id"]}',
             username: json['author']['nickname'],
+            avatarUrl: json['author']['avatar_url'],
             posts: []),
         isLiked: (user == null)
             ? false
             : json['likes'].firstWhere((like) => like['user_id'] == user.id,
                     orElse: () => null) !=
                 null,
+        likeCount: json['likes'] != null ? json['likes'].length : 0,
         url: 'https://$URL/post/${json['id']}',
         title: json['title'],
         text: json['text'],

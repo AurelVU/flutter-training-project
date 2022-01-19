@@ -151,7 +151,12 @@ class PostCard extends StatelessWidget {
                 children: [
                   Row(children: [
                     IconButton(
-                      icon: const Icon(Icons.account_circle_sharp),
+                      icon: post.author.avatarUrl == null ?
+                      Icon(Icons.account_circle_sharp) : CircleAvatar(
+                        radius: 12,
+                        backgroundImage: NetworkImage(post.author.avatarUrl!),
+                        backgroundColor: Colors.transparent,
+                      ),
                       onPressed: () {},
                     ),
                     Text(post.author.username),
@@ -170,6 +175,8 @@ class PostCard extends StatelessWidget {
                           isLiked: post.isLiked,
                           bubblesSize: 0,
                           onTap: onLikeButtonTapped),
+                      Text(post.likeCount.toString())
+                      // Text(data: post.)
                     ],
                   )
                 ],

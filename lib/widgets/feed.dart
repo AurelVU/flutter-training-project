@@ -12,7 +12,7 @@ class Feed extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<PostBloc, PostState>(builder: (context, state) {
       return ListView.builder(itemBuilder: (BuildContext context, int index) {
-        if (state is PostsLoadSuccess && state.posts.length > index) {
+        if ((state is PostsLoadSuccess) && state.posts.length > index) {
           return GestureDetector(
               child: PostCard(post: state.posts[index]),
               onTap: () async {
@@ -21,7 +21,18 @@ class Feed extends StatelessWidget {
                   return SinglePostPage(state.posts[index].id);
                 }));
               });
-        } else {
+        }
+        else if ((state is PostsSoftUpdating) && state.posts.length > index) {
+        return GestureDetector(
+        child: PostCard(post: state.posts[index]),
+        onTap: () async {
+        await Navigator.of(context)
+            .push(MaterialPageRoute(builder: (_) {
+        return SinglePostPage(state.posts[index].id);
+        }));
+        });
+        }
+        else {
           if (state is PostsLoadSuccess &&
               !state.feedIsOver &&
               index % 7 == 0 &&
@@ -32,7 +43,7 @@ class Feed extends StatelessWidget {
           return Card(
             child: ListTile(
               title: Container(
-                  margin: EdgeInsets.all(5),
+                  margin: const EdgeInsets.all(5),
                   width: 100,
                   height: 20,
                   decoration: BoxDecoration(
@@ -41,7 +52,7 @@ class Feed extends StatelessWidget {
                     border: Border.all(width: 10, style: BorderStyle.none),
                   )),
               subtitle: Container(
-                  margin: EdgeInsets.all(5),
+                  margin: const EdgeInsets.all(5),
                   width: 70,
                   height: 100,
                   decoration: BoxDecoration(
