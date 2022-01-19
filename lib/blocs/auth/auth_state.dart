@@ -11,3 +11,4 @@ class AuthorizedState extends AuthState {
   AuthorizedState(this._user);
 }
 class NotAuthorizedState extends AuthState {}
+class UpdateUserDataInProgressState extends AuthState {}

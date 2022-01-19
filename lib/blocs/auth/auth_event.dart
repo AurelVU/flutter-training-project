@@ -37,3 +37,14 @@ class RegistrationEvent extends AuthEvent {
       }
   );
 }
+
+class EditProfile extends AuthEvent {
+  final String firstname;
+  final String lastname;
+  final String website;
+
+  EditProfile({
+    required this.firstname,
+    required this.lastname,
+    required this.website});
+}

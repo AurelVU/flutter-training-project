@@ -1,4 +1,3 @@
-import 'package:app/blocs/auth/auth_bloc.dart';
 import 'package:app/pages/single_post_page.dart';
 import 'package:app/repository/authentication_repository.dart';
 import 'package:app/widgets/loading_indicator.dart';

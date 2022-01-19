@@ -22,12 +22,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       await authenticationRepository.logIn(
           username: event.login,
           password: event.password
-      ).then((isAuthorized) async => {
-                if (isAuthorized == true)
-                  {emit(AuthorizedState(await authenticationRepository.user))}
-                else
-                  {emit(NotAuthorizedState())}
-              });
+      ).then((isAuthorized) async =>
+      {
+        if (isAuthorized == true)
+          {emit(AuthorizedState(await authenticationRepository.user))}
+        else
+          {emit(NotAuthorizedState())}
+      });
     });
 
     on<RegistrationEvent>((event, emit) async {
@@ -54,6 +55,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       } else {
         emit(NotAuthorizedState());
       }
+    });
+
+    on<EditProfile>((event, emit) async {
+      bool status = await authenticationRepository.editProfile(
+          firstname: event.firstname,
+          lastname: event.lastname,
+          website: event.website);
+      if (status) {
+        emit(UpdateUserDataInProgressState());
+        emit(AuthorizedState(await authenticationRepository.user));
+      }
+      print('${event.firstname} ${event.lastname} ${event.website}');
     });
   }
 }
