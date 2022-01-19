@@ -42,9 +42,12 @@ class EditProfile extends AuthEvent {
   final String firstname;
   final String lastname;
   final String website;
+  final String? imagePath;
 
   EditProfile({
     required this.firstname,
     required this.lastname,
-    required this.website});
+    required this.website,
+    required this.imagePath
+  });
 }

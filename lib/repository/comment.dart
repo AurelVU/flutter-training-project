@@ -25,15 +25,18 @@ class CommentRepository {
         },
         body: json.encode({"text": comment}));
     if (response.statusCode >= 200 && response.statusCode < 300) {
+      User? user = await authRepository.user;
       try {
         Post post = postRepository.posts.firstWhere((element) =>
         element.id == postId);
-        User? user = await authRepository.user;
-        post.comments.add(Comment(author: user!.username, text: comment, id: 999));
+        post.comments.add(
+            Comment(author: user!.username, text: comment, id: 999));
+      } catch(_) {}
+        try {
+          Post userPost = user!.posts.firstWhere((element) => element.id == postId);
+          userPost.comments.add(Comment(author: user.username, text: comment, id: 999));
+        } catch (_) {}
         return true;
-      } on StateError catch (_) {
-        return false;
-      }
     }
     else {
       return false;

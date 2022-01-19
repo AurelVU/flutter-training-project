@@ -3,6 +3,8 @@ import 'package:app/models/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 class AddingScreen extends StatefulWidget {
   AddingScreen({Key? key}) : super(key: key);
@@ -12,11 +14,31 @@ class AddingScreen extends StatefulWidget {
   TextEditingController lastname = TextEditingController();
   TextEditingController website = TextEditingController();
 
+  String? path;
+  Image? image;
+
   @override
   State<AddingScreen> createState() => _AddingScreenState();
 }
 
 class _AddingScreenState extends State<AddingScreen> {
+  final ImagePicker _picker = ImagePicker();
+
+  Future<Image> convertXFile2ImageWidget(XFile xFile) async {
+    var path = xFile.path;
+    var bytes = await File(path).readAsBytes();
+    Image image = Image.memory(bytes);
+    return image;
+  }
+
+  addImage() async {
+    XFile? xFile = await _picker.pickImage(source: ImageSource.gallery);
+    if (xFile != null) {
+      widget.path = xFile.path;
+      widget.image = await convertXFile2ImageWidget(xFile);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,6 +87,14 @@ class _AddingScreenState extends State<AddingScreen> {
                                         border: OutlineInputBorder(),
                                         hintText: 'Ссылка на вебсайт')),
                               ),
+                              IconButton(
+                                icon: widget.image ?? const Icon(Icons.add_a_photo),
+                                iconSize: 110,
+                                onPressed: () async {
+                                  await addImage();
+                                  setState(() {});
+                                },
+                              ),
                               ElevatedButton(
                                   onPressed: () {
                                     BlocProvider.of<AuthBloc>(context).
@@ -72,6 +102,7 @@ class _AddingScreenState extends State<AddingScreen> {
                                       firstname: widget.firstname.text,
                                       lastname: widget.lastname.text,
                                       website: widget.website.text,
+                                      imagePath: widget.path
                                     ));
                                     Navigator.of(context).pop();
                                   },

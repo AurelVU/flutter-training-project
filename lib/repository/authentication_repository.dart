@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:app/models/user.dart';
+import 'package:app/repository/image.dart';
 import 'package:app/src/const.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -10,6 +11,8 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 enum AuthenticationStatus { unknown, authenticated, unauthenticated }
 
 class AuthenticationRepository {
+  final ImageRepository imageRepository;
+  AuthenticationRepository(this.imageRepository);
   final storage = const FlutterSecureStorage();
 
   Future<String?> get jwtToken async {
@@ -66,8 +69,13 @@ class AuthenticationRepository {
     required String firstname,
     required String lastname,
     required String website,
+    required String? path
   }) async {
     var editProfileData = {};
+    if (path != null) {
+      String? photoUrl = await imageRepository.sendImage(path);
+      if (photoUrl != null) { editProfileData['avatarUrl'] = photoUrl; }
+    }
     editProfileData['firstname'] = firstname;
     editProfileData['lastname'] = lastname;
     editProfileData['website'] = website;

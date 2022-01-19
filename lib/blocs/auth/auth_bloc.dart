@@ -61,7 +61,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       bool status = await authenticationRepository.editProfile(
           firstname: event.firstname,
           lastname: event.lastname,
-          website: event.website);
+          website: event.website,
+          path: event.imagePath
+      );
       if (status) {
         emit(UpdateUserDataInProgressState());
         emit(AuthorizedState(await authenticationRepository.user));

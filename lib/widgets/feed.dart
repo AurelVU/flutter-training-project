@@ -18,7 +18,7 @@ class Feed extends StatelessWidget {
               onTap: () async {
                 await Navigator.of(context)
                     .push(MaterialPageRoute(builder: (_) {
-                  return SinglePostPage(state.posts[index].id);
+                  return SinglePostPage(state.posts[index]);
                 }));
               });
         }
@@ -28,7 +28,7 @@ class Feed extends StatelessWidget {
         onTap: () async {
         await Navigator.of(context)
             .push(MaterialPageRoute(builder: (_) {
-        return SinglePostPage(state.posts[index].id);
+        return SinglePostPage(state.posts[index]);
         }));
         });
         }

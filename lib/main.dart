@@ -18,8 +18,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'blocs/auth/auth_bloc.dart';
 
 void main() {
-  AuthenticationRepository authRep = AuthenticationRepository();
   ImageRepository imageRepository = ImageRepository();
+  AuthenticationRepository authRep = AuthenticationRepository(imageRepository);
   PostRepository postRepository = PostRepository(authRep, imageRepository);
   CommentRepository commentRepository = CommentRepository(postRepository, authRep);
 
